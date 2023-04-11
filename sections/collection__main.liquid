@@ -255,16 +255,14 @@
       {% else %}
         <div class="collection-matrix__wrapper">
           <div class="collection__loading-icon button is-loading is-loading--icon-only"></div>
-          <div class="container collection-matrix" {% if section.settings.pagination_type != 'basic_pagination' %}data-load-more--grid {% endif %}>
+          <div class="container collection-matrix  has-no-side-gutter" {% if section.settings.pagination_type != 'basic_pagination' %}data-load-more--grid {% endif %}>
             {%- assign products_per_row = section.settings.products_per_row -%}
             {%- assign mobile_products_per_row = section.settings.mobile_products_per_row -%}
             {% render 'product-loop',
                     products: products,
                     products_per_row: products_per_row,
                     mobile_products_per_row: mobile_products_per_row,
-                    limit: section.settings.pagination_limit,
-                    align_height: section.settings.align_height,
-                    height: section.settings.collection_height
+                    limit: section.settings.pagination_limit
             %}
           </div>
         </div>
@@ -411,23 +409,6 @@
     {
       "type": "header",
       "content": "Product thumbnails"
-    },
-    {
-      "type": "checkbox",
-      "id": "align_height",
-      "label": "Align to height",
-      "default": false
-    },
-    {
-      "type": "range",
-      "id": "collection_height",
-      "label": "Product image height",
-      "min": 150,
-      "max": 400,
-      "step": 10,
-      "default": 200,
-      "unit": "px",
-      "info": "Applied when 'Align to height' is enabled. [Learn more](https://help.outofthesandbox.com/hc/en-us/articles/360022543913)"
     },
     {
       "type": "range",

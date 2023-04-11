@@ -27,12 +27,14 @@
     "subheading_font": "libre_franklin_n4",
     "banner_heading__font": "libre_franklin_n4",
     "banner_text__font": "libre_franklin_n4",
-    "show_secondary_image": true,
+    "show_secondary_image": false,
     "thumbnail_hover_enabled": false,
+    "thumbnail_text_alignment": "left",
     "limit_quantity": true,
     "display_inventory_left": true,
     "enable_quickshop": false,
     "cart_action": "drawer",
+    "currency_format": "money_format",
     "sections": {
       "announcement-bar": {
         "type": "announcement-bar",

@@ -18116,3 +18116,44 @@ ul.faceted-filter-group-display__list {
 */
 /* # Custom Styles
 ================================================== */
+
+/* =======================================================
+Custom Styles for Product Thumbnail
+========================================================== */
+.product__thumbnail{
+  margin: 0px !important; 
+}
+.product-wrap{
+  padding: 10px; 
+  transition: all 0.8s;
+  border-radius: 8px;
+}
+
+.product-wrap:hover{
+  box-shadow: 0 0 4px 0 #000;
+}
+.product__imageContainer{
+  position: relative; 
+  width: 100%; 
+  height: 0; 
+  padding-bottom: 80%;
+}
+
+.product__imageContainer img{
+  position: absolute; 
+  top: 0; 
+  left: 0; 
+  width: 100%; 
+  height: 100%; 
+  object-fit: cover; 
+  object-position: center center; 
+}
+
+.product-thumbnail__title{
+  font-size: 14px; 
+}
+
+.product-thumbnail__price .money{
+  font-weight: 600;
+  font-size: 16px; 
+}
