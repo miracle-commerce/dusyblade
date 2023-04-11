@@ -1,0 +1,268 @@
+{% if show_payment_button == false or product.selling_plan_groups.size > 0 %}
+  {% assign show_payment_button = false %}
+{% else %}
+  {% assign show_payment_button = true %}
+{% endif %}
+
+<div
+  class="
+    clearfix
+    product_form
+    init
+    smart-payment-button--{{ show_payment_button }}
+    {% if product.variants.size > 1 or product.options.size > 1 %}product_form_options{% endif %}
+    product_form--{{ settings.product_form_style }}
+  "
+  id="product-form-{{ product.id }}"
+  data-product-form
+  data-money-format="{{ shop.money_format | strip_html }}"
+  data-shop-currency="{{ shop.currency }}"
+  data-select-id="product-select-{{ product.id }}{{ product-form }}{{ object.id }}{{ block.id }}"
+  data-enable-state="{% if template.name == 'product' %}true{% else %}false{% endif %}"
+  {% if settings.limit_quantity or settings.display_inventory_left %}
+    data-variant-inventory='[{%- for v in product.variants -%}{"id":{{v.id}},"inventory_quantity":{{v.inventory_quantity}},"inventory_management":"{{v.inventory_management}}","inventory_policy":"{{v.inventory_policy}}"}{% if forloop.last == false %},{% endif %}{%- endfor -%}]'
+  {% endif %}
+  data-product-id="{{ product.id }}"
+>
+  {% form 'product', product %}
+    <div style="display: none;" data-shop-pay-installments-template>{{ form | payment_terms }}</div>
+
+    {% comment %}
+      Display variant options for a product
+
+      @param product
+      @param selected_variant
+      @param style
+
+      @param enable_swatches
+      @param swatches_shape
+      @param swatches_option_trigger
+      @param swatches_option_style
+      @param swatches_product_page_size
+      @param swatch_colors
+    {% endcomment %}
+    {% assign style = 'select' %}
+    {% if settings.product_form_style == 'radio' %}
+      {% assign style = 'radio' %}
+    {% endif %}
+    {% assign product = product %}
+    {% assign sold_out_options = sold_out_options %}
+    {% assign selected_variant = selected_variant %}
+    {% assign enable_swatches = settings.enable_swatches %}
+    {% assign swatches_shape = settings.swatch_style %}
+    {% assign swatches_option_trigger = settings.swatch_trigger %}
+    {% comment %}Inject @pixelunion/shopify-variants-ui/variant-selection begin{% endcomment %}
+    {% comment %}
+      Display variant options for a product
+    
+      @param product
+      @param selected_variant
+      @param variant_selection_id
+      @param sold_out_options
+      @param style
+    
+      @param enable_swatches
+      @param swatches_shape
+      @param swatches_option_trigger
+      @param swatches_option_style
+      @param swatches_product_page_size
+      @param swatches_custom_colors
+    {% endcomment %}
+    
+    <variant-selection
+      {% if variant_selection_id != blank %}id="{{ variant_selection_id }}"{% endif %}
+      class="variant-selection"
+      product-url="{{ product.url }}.js"
+      variant="{% if selected_variant %}{{ selected_variant.id }}{% else %}not-selected{% endif %}"
+      data-variant-selection
+    >
+      {% if product.has_only_default_variant %}
+        <input
+          class="variant-selection__variants variant-selection__variants--default"
+          name="id"
+          type="hidden"
+          value="{{ product.variants.first.id }}"
+          data-variants
+        >
+      {% else %}
+        <noscript>
+          <style>
+            .variant-selection__variants {
+              display: block !important;
+            }
+          </style>
+        </noscript>
+        <select
+          class="variant-selection__variants"
+          name="id"
+          style="display: none"
+          data-variants
+        >
+          <option
+            value="not-selected"
+            disabled
+            {% if selected_variant == blank %}selected{% endif %}
+          >
+            {{ 'product.variants.choose_variant' | t }}
+          </option>
+          {% for variant in product.variants %}
+            <option
+              {% if selected_variant and selected_variant.id == variant.id %}selected{% endif %}
+              value="{{ variant.id }}"
+              {% unless variant.available %}disabled{% endunless %}
+            >
+              {{ variant.title }} - {{ variant.price | money }}
+            </option>
+          {% endfor %}
+        </select>
+    
+        {% comment %}Inject @pixelunion/shopify-variants-ui/options-selection begin{% endcomment %}
+        {% comment %}
+          Display variant options for a product
+        
+          @param product
+          @param selected_variant
+          @param variant_selection_id
+          @param sold_out_options
+          @param style
+        
+          @param enable_swatches
+          @param swatches_shape
+          @param swatches_option_trigger
+          @param swatches_option_style
+          @param swatches_product_page_size
+          @param swatches_custom_colors
+          @param swatch_file_type
+        {% endcomment %}
+        
+        <options-selection
+          {% if variant_selection_id != blank %}variant-selection="{{ variant_selection_id }}"{% endif %}
+          style="display: none;"
+          {% if sold_out_options == 'disabled' %}disable-unavailable{% endif %}
+          {% if sold_out_options == 'hidden' %}remove-unavailable{% endif %}
+          data-options-selection
+        >
+          <script>
+            (function() {
+              const scriptTag = document.scripts[document.scripts.length - 1];
+              const parentTag = scriptTag.parentNode;
+        
+              parentTag.style.display = '';
+            })()
+          </script>
+        
+          {% for option in product.options_with_values %}
+            {% assign option_index = forloop.index0 %}
+            {% assign show_swatches = false %}
+            {% if enable_swatches %}
+              {%- assign swatches_option_trigger = swatches_option_trigger | strip | downcase -%}
+              {%- assign option_name = option.name | strip | downcase -%}
+        
+              {% if option_name == swatches_option_trigger %}
+                {% assign show_swatches = true %}
+                {% assign swatch_option_key = 'option' | append: forloop.index %}
+              {% endif %}
+            {% endif %}
+        
+            {% if style == 'select' and show_swatches == false %}
+              {%
+                render 'options-select',
+                product: product,
+                selected_variant: selected_variant,
+                option: option,
+                option_index: option_index
+              %}
+            {% elsif style == 'radio' or show_swatches == true %}
+              {%
+                render 'options-radios',
+                product: product,
+                selected_variant: selected_variant,
+                option: option,
+                option_index: option_index,
+                show_swatches: show_swatches,
+                swatch_option_key: swatch_option_key,
+                swatch_size: swatches_product_page_size,
+                swatches_option_style: swatches_option_style,
+                swatch_file_type: swatch_file_type,
+                swatches_custom_colors: swatches_custom_colors,
+                swatches_shape: swatches_shape,
+              %}
+            {% endif %}
+          {% endfor %}
+        </options-selection>
+        {% comment %}Inject @pixelunion/shopify-variants-ui/options-selection end{% endcomment %}
+    
+      {% endif %}
+    </variant-selection>
+    {% comment %}Inject @pixelunion/shopify-variants-ui/variant-selection end{% endcomment %}
+
+
+    {% if product.available %}
+      {% if settings.display_inventory_left %}
+        <p class="items_left">
+          {% if selected_variant.inventory_management != blank and selected_variant.inventory_quantity > 0 %}
+            {% capture items_left_text %}
+              {% if selected_variant.inventory_quantity == 1 %}
+                {{ 'products.product.items_left_count.one' | t }}
+              {% else %}
+                {{ 'products.product.items_left_count.other' | t }}
+              {% endif %}
+            {% endcapture %}
+            {% if selected_variant.inventory_quantity <= settings.inventory_threshold %}
+              {{ selected_variant.inventory_quantity }} {{ items_left_text }}
+            {% endif %}
+          {% endif %}
+        </p>
+      {% endif %}
+
+      <div class="purchase-details {% if settings.display_product_quantity %}has-quantity-box{% endif %}">
+        {% if settings.display_product_quantity %}
+          <div class="purchase-details__quantity product-quantity-box quantity-box--{{ settings.qty_box_style }}">
+            {%
+              render 'quantity-box',
+              variant: selected_variant,
+            %}
+          </div>
+        {% endif %}
+
+        <div class="purchase-details__buttons purchase-details__spb--{{ show_payment_button }}">
+          {% if settings.cart_action == 'reload_page' %}
+            <input type="hidden" name="return_to" value="back" />
+          {% elsif settings.cart_action == 'redirect_cart' %}
+            <input type="hidden" name="return_to" value="{{ routes.cart_url }}" />
+          {% endif %}
+
+          {% capture add_to_cart_label %}{% if collection_handles contains 'pre-order' %}{{ 'collections.general.pre_order' | t }}{% else %}{{ 'products.product.add_to_cart' | t }}{% endif %}{% endcapture %}
+          <button type="submit" name="add" class="button {% if settings.cart_action == 'mini_cart' or settings.cart_action == 'drawer' %} ajax-submit {% endif %}action_button button--add-to-cart {% if show_payment_button %} action_button--secondary {% endif %}" data-label={{ add_to_cart_label | json }} data-add-to-cart-trigger>
+            {% if  settings.button_cart_icon != blank and settings.button_cart_icon_position == 'left' %}
+              {%
+                render 'icon',
+                name: settings.button_cart_icon,
+                icon_class: 'icon--cart'
+              %}
+            {% endif %}
+            <span class="text">{{ add_to_cart_label }}</span>
+            {% if  settings.button_cart_icon != blank and settings.button_cart_icon_position == 'right' %}
+              {%
+                render 'icon',
+                name: settings.button_cart_icon,
+                icon_class: 'icon--cart icon--right'
+              %}
+            {% endif %}
+            <svg x="0px" y="0px" width="32px" height="32px" viewBox="0 0 32 32" class="checkmark">
+              <path fill="none" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" d="M9,17l3.9,3.9c0.1,0.1,0.2,0.1,0.3,0L23,11"/>
+            </svg>
+          </button>
+          {% if show_payment_button %}
+            {{ form | payment_button }}
+          {% endif %}
+        </div>
+
+        <div class="cart-warning"></div>
+      </div>
+    {% endif %}
+  {% endform %}
+
+  <div class="surface-pick-up surface-pick-up--loading" data-surface-pick-up></div>
+  <div class="surface-pick-up__modal" data-surface-pick-up-modal></div>
+</div>

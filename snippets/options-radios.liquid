@@ -1,0 +1,118 @@
+{% comment %}
+  Display variant options for a product
+
+  @param selected_variant
+{% endcomment %}
+
+{% assign swatch_trigger = settings.swatch_trigger | strip | downcase %}
+{% assign file_extension = 'png' %}
+
+{% assign loop_index = option_index | plus: 1 %}
+{%- assign swatch_option_key = 'option' | append: loop_index -%}
+
+<fieldset class="swatch is-flex is-flex-wrap" data-option-index="{{ option_index }}">
+  <legend class="option-title label">
+    <span
+      class="options-selection__option-name"
+      data-variant-option-name="{{ 'product.variants.chosen_option_html' | t: option: option.name, value: option.selected_value | escape }}"
+      data-variant-option-choose-name="{{ 'product.variants.choose_option' | t: option: option.name }}"
+    >
+      {% if selected_variant %}
+        {{ 'product.variants.chosen_option_html' | t: option: option.name, value: option.selected_value }}
+      {% else %}
+        {{ 'product.variants.choose_option' | t: option: option.name }}
+      {% endif %}
+    </span>
+  </legend>
+  <div
+    class="swatch__options"
+    data-variant-option
+    data-variant-option-index="{{ option_index }}"
+    data-variant-option-chosen-value="{% if selected_variant %}{{ option.selected_value }}{% else %}false{% endif %}"
+  >
+    {% for value in option.values %}
+      {% assign option_name = option.name | downcase %}
+
+      {% if show_swatches and option_name == swatch_trigger %}
+        {% assign is_color = true %}
+      {% endif %}
+
+      {% if option_name == swatch_trigger %}
+        {% assign swatch_search_color = value | downcase %}
+        {% for variant in product.variants %}
+          {% assign option_value_downcased = variant[swatch_option_key] | downcase %}
+          {% if option_value_downcased == swatch_search_color %}
+            {% assign swatch_file_url = variant.image | img_url: 'small' %}
+          {% endif %}
+        {% endfor %}
+      {% endif %}
+
+      <div class="swatch__option" data-variant-option-value-wrapper>
+        <input
+          class="swatch--{{ value | handle }}"
+          type="radio"
+          aria-label="{{ value | escape }}"
+          tabindex="0"
+          name="option-{{ option_index }}"
+          value="{{ value | escape }}"
+          {% if selected_variant and option.selected_value == value %}checked{% endif %}
+          data-variant-option-value
+          data-variant-option-value-index="{{ option_index }}"
+        />
+        <div
+          aria-label="{{ value | escape }}"
+          tabindex="0"
+          data-value="{{ value | escape }}"
+          data-value-handle="{{ value | handle }}"
+          class="swatch-element {% if is_color %}color {% endif %}{{ value | handle }}-swatch"
+        >
+          {% if is_color %}
+            <div class="tooltip">{{ value }}</div>
+          {% endif %}
+          {% if is_color %}
+            <label
+              style="
+                {% if settings.swatches_option_style == 'variant_image' and product.variants[forloop.index0].image != blank %}
+                  background-image: url({{ swatch_file_url }});
+                {% else %}
+                  background-color: {{ value | split: ' ' | last | handle }};
+                {% endif %}
+              "
+              data-variant-option-value-label
+              data-variant-image="{% if settings.swatches_option_style == 'variant_image' and product.variants[forloop.index0].image != blank %}true{% endif %}"
+            >
+
+              {% if product.variants[forloop.index0].image == blank or settings.swatches_option_style != 'variant_image' %}
+                {% assign image_name = value | handle | append: '.' | append: file_extension %}
+                {% assign swatch = images[image_name] %}
+              {% endif %}
+
+              <img class="swatch__image {% if swatch == empty %}swatch__image--empty{% endif %}" src="{{ swatch | img_url: '50x' }}" alt="">
+
+              <span class="crossed-out" aria-label="{{ 'products.product.sold_out' | t }}" alt="{{ 'products.product.sold_out' | t }}"></span>
+            </label>
+          {% else %}
+            <label
+              data-variant-option-value-label
+            >
+              {{ value }}
+              <span class="crossed-out" aria-label="{{ 'products.product.sold_out' | t }}" alt="{{ 'products.product.sold_out' | t }}"></span>
+            </label>
+          {% endif %}
+          <script class="id-script">
+            (function() {
+              const idScriptEl = document.querySelector('.id-script:not(.id-script--processed)');
+              const idScriptsProcessed = document.querySelectorAll('.id-script.id-script--processed').length;
+              const variantOptionValueWrapper = idScriptEl.closest('[data-variant-option-value-wrapper]');
+              const variantOptionValue = variantOptionValueWrapper.querySelector('[data-variant-option-value]');
+              const variantOptionValueLabel = variantOptionValueWrapper.querySelector('[data-variant-option-value-label]');
+              variantOptionValue.id = `{{ product.id }}-${idScriptsProcessed}`;
+              variantOptionValueLabel.setAttribute('for', `{{ product.id }}-${idScriptsProcessed}`);
+              idScriptEl.classList.add('id-script--processed');
+            })();
+          </script>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+</fieldset>

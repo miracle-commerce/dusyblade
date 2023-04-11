@@ -1,0 +1,24 @@
+{
+  "sections": {
+    "banner": {
+      "type": "fallback_image_banner",
+      "settings": {
+      }
+    },
+    "subcollections": {
+      "type": "subcollections",
+      "settings": {
+      }
+    },
+    "main": {
+      "type": "collection__main",
+      "settings": {
+      }
+    }
+  },
+  "order": [
+    "banner",
+    "subcollections",
+    "main"
+  ]
+}

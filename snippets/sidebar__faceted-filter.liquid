@@ -1,0 +1,178 @@
+<form class="faceted-filter-form" data-faceted-filter-form>
+  {% assign has_active_filters = false %}
+
+  {%- comment -%}Shows "Clear all" and Active filters that have been selected. Do not collapse this element - should always be visible{%- endcomment -%}
+  {% capture faceted_active_filters %}
+    {%- for filter in collection.filters -%}
+      {% if filter.type == "price_range"  %}
+        {%- if filter.min_value.value != nil or filter.max_value.value != nil -%}
+          {% assign has_active_filters = true %}
+          <a class="faceted-active-filters__remove-filter button button--primary" href="{{ filter.url_to_remove }}">
+            {%- assign min_value = filter.min_value.value | default: 0 -%}
+            {%- assign max_value = filter.max_value.value | default: filter.range_max -%}
+            {% render 'icon', name: 'x', icon_class: 'clear-filter' %} <span>{{ min_value | money }} - {{ max_value | money }}</span>
+          </a>
+        {%- endif -%}
+      {%- else -%}
+        {%- for filter_value in filter.active_values -%}
+          {% assign has_active_filters = true %}
+          <a class="faceted-active-filters__remove-filter button button--primary" href="{{ filter_value.url_to_remove }}">
+            {% render 'icon', name: 'x', icon_class: 'clear-filter' %}<span>{{ filter_value.label }}</span>
+          </a>
+        {%- endfor -%}
+      {% endif %}
+    {%- endfor -%}
+  {% endcapture %}
+  {% if has_active_filters %}
+    <div>
+      <div class="faceted-active-filters">
+        {%- assign label = 'collections.sidebar.clear_all' | t -%}
+        {% render 'button',
+              label: label,
+              type: "link",
+              class: "faceted-active-filters__clear",
+              href: collection.url %}
+        {{ faceted_active_filters }}
+      </div>
+    </div>
+  {% endif %}
+
+  {%- for filter in collection.filters -%}
+    <div id="shopify-section-{{ block.id }}"
+      class="sidebar__block
+            block__{{ block.type | downcase | replace: '_', '-' }}
+            has-padding-top
+            has-padding-bottom
+            {% if settings.toggle_sidebar %}sidebar-toggle-active{% endif %}"
+            {{ block.shopify_attributes }}>
+      <div data-has-toggle-option>
+        <h3 class="sidebar-block__heading"
+                  {% if settings.toggle_sidebar %}
+                    data-sidebar-block__toggle="
+                      {%- if filter.active_values.size > 0 or filter.min_value.value != blank or filter.max_value.value != blank -%}open{%- else -%}closed{%- endif -%}"
+                    aria-label="toggle"
+                  {% endif %}>
+          {{ filter.label }}
+          {%- if filter.active_values.size > 0 -%}
+            <span class="faceted-filter-group-summary__active-count">({{ filter.active_values.size }})</span>
+          {%- endif -%}
+          {% if settings.toggle_sidebar %}
+            <button class="sidebar-block__toggle-icon icon-style--{{ settings.toggle_icon_style }}">
+              {% if settings.toggle_icon_style == 'plus_and_minus' %}
+                {% render 'icon',
+                        name: 'plus',
+                        icon_class: 'icon--active'
+                %}
+                {% render 'icon', name: 'minus' %}
+              {% else %}
+                {% render 'icon',
+                        name: 'down-caret',
+                        icon_class: 'icon--active'
+                %}
+              {% endif %}
+            </button>
+          {% endif %}
+        </h3>
+      </div>
+      <div class="sidebar-block__content content" {% if settings.toggle_sidebar %}data-sidebar-block__content--collapsible{% endif %}>
+        <div class="faceted-filter-group-display">
+          <div class="faceted-filter-group-display__header">
+            {%- if filter.active_values.size > 0 -%}
+              <a href="{{ filter.url_to_remove }}" class="faceted-filter-group-display__header-clear">{% render 'icon', name: 'x', icon_class: 'clear-filter' %}<span>{{ 'collections.sidebar.clear' | t }}</span></a>
+            {%- endif -%}
+          </div>
+
+          {%- case filter.type -%}
+            {%- when 'list' -%}
+              <ul class="faceted-filter-group-display__list">
+                {%- for filter_value in filter.values -%}
+                  <li class="faceted-filter-group-display__list-item">
+                    {% capture input_id %}Filter-{{ filter.label | escape }}-{{ forloop.index }}{% endcapture %}
+                    <label
+                      class="faceted-filter-group-display__list-item-label"
+                      for="{{ input_id }}"
+                    >
+                      <input
+                        class="faceted-filter-group-display__list-item-input"
+                        type="checkbox"
+                        name="{{ filter_value.param_name | escape }}"
+                        value="{{ filter_value.value | escape }}"
+                        id="{{ input_id }}"
+                        {% if filter_value.active -%}checked{%- endif %}
+                        {% if filter_value.count == 0 and filter_value.active == false -%}disabled{%- endif %}
+                      >
+                      <svg class="faceted-filter-group-display__checkmark" aria-hidden="true" focusable="false" role="presentation" width="14" height="14" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14">
+                        <path class="faceted-filter-group-display__checkmark-check" fill="none" d="M2.5 7L5.5 10L11.5 4"></path>
+                      </svg>
+                      <span class="faceted-filter-group-display__list-item-label-text">{{ filter_value.label }}</span>
+                    </label>
+                  </li>
+                {%- endfor -%}
+              </ul>
+
+              <div class="faceted-filter-group-display__submit faceted-filter-group-display__list-submit">
+                {%- assign label = 'collections.sidebar.apply_filter' | t | escape -%}
+                {% render 'button',
+                      label: label,
+                      type: 'submit',
+                      style: 'button--primary' %}
+              </div>
+            {%- when 'price_range' -%}
+              <div class="faceted-filter-group-display__price-range">
+                <div class="faceted-filter-group-display__price-range-from">
+                  <label
+                    class="faceted-filter-group-display__price-range-label"
+                    for="Filter-{{ filter.label }}-{{ forloop.index }}"
+                  >
+                    {{ 'collections.sidebar.from' | t | escape }}
+                  </label>
+                  <span>{{ cart.currency.symbol }}</span>
+                  <input
+                    class="faceted-filter-group-display__price-range-input"
+                    name="{{ filter.min_value.param_name }}"
+                    id="Filter-{{ filter.label }}-{{ forloop.index }}"
+                    {% if filter.min_value.value -%}
+                      value="{{ filter.min_value.value | money_without_currency | replace: ',', '' }}"
+                    {%- endif %}
+                    type="number"
+                    placeholder="0"
+                    min="0"
+                    max="{{ filter.range_max | money_without_currency | replace: ',', '' }}"
+                  >
+                </div>
+                <div class="faceted-filter-group-display__price-range-to">
+                  <label
+                    class="faceted-filter-group-display__price-range-label"
+                    for="Filter-{{ filter.label }}-{{ forloop.index }}"
+                  >
+                    {{ 'collections.sidebar.to' | t | escape }}
+                  </label>
+                  <span>{{ cart.currency.symbol }}</span>
+                  <input
+                    class="faceted-filter-group-display__price-range-input"
+                    name="{{ filter.max_value.param_name }}"
+                    id="Filter-{{ filter.label }}-{{ forloop.index }}"
+                    {% if filter.max_value.value -%}
+                      value="{{ filter.max_value.value | money_without_currency | replace: ',', '' }}"
+                    {%- endif %}
+                    type="number"
+                    placeholder="{{ filter.range_max | money_without_currency | replace: ',', '' }}"
+                    min="0"
+                    max="{{ filter.range_max | money_without_currency | replace: ',', '' }}"
+                  >
+                </div>
+              </div>
+
+              <div class="faceted-filter-group-display__submit">
+                {%- assign label = 'collections.sidebar.apply_filter' | t | escape -%}
+                {% render 'button',
+                      label: label,
+                      type: 'submit',
+                      style: 'button--primary' %}
+              </div>
+          {%- endcase -%}
+        </div>
+      </div>
+    </div>
+  {%- endfor -%}
+</form>

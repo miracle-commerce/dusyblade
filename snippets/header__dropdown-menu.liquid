@@ -1,0 +1,71 @@
+{% comment %}
+Required values
+index: <value>
+______________
+Optional values
+prefix: <string>
+{% endcomment %}
+
+<input class="no-js-main-navigation" type="radio" id="dropdown-{{ link.title | handleize }}" name="no-js-main-navigation">
+<div class="navbar-dropdown navbar-dropdown--{{ settings.dropdown_position }} is-{{ settings.dropdown_style }} has-{{ settings.dropdown_link_spacing }}-vertical-spacing">
+  {% if settings.dropdown_style == 'horizontal' and settings.header_layout != 'vertical' %}
+    <div class="section is-flex">
+      {% for sub_link in link.links %}
+        {% if sub_link.links == blank %}
+          <div class="horizontal-dropdown__column">
+            <a class="navbar-item {% if sub_link.active %}is-active{% endif %}" href="{{ sub_link.url }}">
+              {{ sub_link.title }}
+            </a>
+          </div>
+        {% else %}
+          <div class="horizontal-dropdown__column has-submenu">
+            <a href="{{ sub_link.url }}" class="navbar-item menu__heading {% if sub_link.active %}is-active{% endif %}">
+              {{ sub_link.title }}
+            </a>
+            <ul class="navbar-submenu is-visible">
+              {% for sub_sub_link in sub_link.links %}
+                <li>
+                  <a class="navbar-item is-arrowless" href="{{ sub_sub_link.url }}">
+                    {{ sub_sub_link.title }}
+                  </a>
+                </li>
+              {% endfor %}
+            </ul>
+          </div>
+        {% endif %}
+      {% endfor %}
+      </div>
+    {% elsif settings.dropdown_style == 'vertical' or settings.header_layout == 'vertical' %}
+      {% for sub_link in link.links %}
+        {% if sub_link.links == blank %}
+          <a class="navbar-item {% if sub_link.active %}is-active{% endif %}" href="{{ sub_link.url }}">
+            {{ sub_link.title }}
+          </a>
+        {% else %}
+          <div class="has-submenu">
+            <input class="visually-hidden" type="checkbox" id="{{ prefix }}submenu{% if block.id %}-{{ block.id }}{% endif %}-{{ index }}-{{ forloop.index }}" tabindex="-1">
+            <label for="{{ prefix }}submenu{% if block.id %}-{{ block.id }}{% endif %}-{{ index }}-{{ forloop.index }}">
+              {% if sub_link.url == 'http://' or sub_link.url == '' or sub_link.url == '/' or sub_link.url == 'https://' or sub_link.url == '#' %}
+                <a class="navbar-link {% if sub_link.active %}is-active{% endif %}">
+                  <span>{{ sub_link.title }}</span>
+                </a>
+              <span class="close-dropdown"></span>
+              {% else %}
+                <a href="{{ sub_link.url }}" class="navbar-link {% if sub_link.active %}is-active{% endif %}">
+                  <span>{{ sub_link.title }}</span>
+                </a>
+                <span class="close-dropdown"></span>
+              {% endif %}
+            </label>
+            <ul class="navbar-submenu">
+              {% for sub_sub_link in sub_link.links %}
+                <li>
+                  <a class="navbar-item" href="{{ sub_sub_link.url }}">{{ sub_sub_link.title }}</a>
+                </li>
+              {% endfor %}
+            </ul>
+          </div>
+        {% endif %}
+      {% endfor %}
+    {% endif %}
+</div>

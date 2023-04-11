@@ -1,0 +1,155 @@
+{% comment %}
+** 404 page - main content area **
+- Appears when a file path cannot be found
+{% endcomment %}
+
+{% assign id = section.id %}
+{% comment %}Layout{% endcomment %}
+{% assign width = section.settings.width %}
+{% assign padding_top = section.settings.padding_top %}
+{% assign padding_bottom = section.settings.padding_bottom %}
+{% assign animation = section.settings.animation | default: 'none' %}
+{% comment %}Advanced{% endcomment %}
+{% assign css_class = section.settings.css_class %}
+{% assign custom_css = section.settings.custom_css %}
+
+{% style %}
+  #shopify-section-{{ section.id }} {
+    padding-top: {{ section.settings.padding_top }}px;
+    padding-bottom: {{ section.settings.padding_bottom }}px;
+    {% if section.settings.width == 'wide' %}
+      width: 100%;
+      max-width: 95%;
+    {% endif %}
+  }
+
+  {% render 'css-loop',
+          css: section_css,
+          id: id
+  %}
+  {% render 'css-loop',
+          css: custom_css,
+          id: id
+  %}
+{% endstyle %}
+
+<section class="section
+        {{ css_class }}
+        is-width-{{ width }}"
+        {% if animation != "none" %}
+          data-scroll-class="{{ animation }}"
+        {% endif %}>
+  <header class="container hide-when-banner-enabled">
+    {% capture heading_title %}{{ 'general.404.title' | t }}{% endcapture %}
+    {% render 'heading',
+            title: heading_title,
+            heading_tag: 'h1',
+            context: 'page-not-found',
+            text_alignment: 'left'
+    %}
+  </header>
+
+  <div class="container">
+    <div class="one-whole column content" data-autocomplete-{{ settings.enable_autocomplete }}>
+      {% if section.settings.not_found_text == '' %}
+        <p>{{ 'general.404.continue_shopping_html' | t: continue_link: routes.all_products_collection_url }}</p>
+      {% else %}
+        {{ section.settings.not_found_text }}
+      {% endif %}
+
+      {% if section.settings.display_search_field %}
+        <form class="search-form" action="{{ routes.search_url }}">
+          <div class="search__fields">
+            <input type="hidden" name="type" value="{{ settings.search_option }}" />
+            <label for="q" class="visually-hidden">{{ settings.search_placeholder }}</label>
+            <div class="field">
+              <div class="control has-icons-left">
+                <input class="input" type="text" name="q" placeholder="{{ settings.search_placeholder }}" value="{{ search.terms }}" x-webkit-speech autocapitalize="off" autocomplete="off" autocorrect="off" data-q/>
+                {% render 'icon',
+                        name: 'search',
+                        class: 'icon is-left'
+                %}
+              </div>
+            </div>
+            <input type="submit" name="search" class="visually-hidden" value="" />
+          </div>
+        </form>
+      {% endif %}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+
+{
+  "name": "Page not found",
+  "class": "not-found-404__page",
+  "settings": [
+    {
+      "type": "richtext",
+      "id": "not_found_text",
+      "label": "Text"
+    },
+    {
+      "type": "checkbox",
+      "id": "display_search_field",
+      "label": "Display search field",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "select",
+      "id": "width",
+      "label": "Width",
+      "default": "standard",
+      "options": [
+        {
+          "value": "standard",
+          "label": "Standard"
+        },
+        {
+          "value": "wide",
+          "label": "Wide"
+        }
+      ]
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Top spacing",
+      "min": 0,
+      "max": 80,
+      "default": 40,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Bottom spacing",
+      "min": 0,
+      "max": 80,
+      "default": 40,
+      "unit": "px"
+    },
+    {
+      "type": "header",
+      "content": "Advanced",
+      "info": "[Learn more](https://help.outofthesandbox.com/hc/en-us/articles/360022329373)"
+    },
+    {
+      "type": "text",
+      "id": "css_class",
+      "label": "CSS Class"
+    },
+    {
+      "type": "textarea",
+      "id": "custom_css",
+      "label": "Custom CSS"
+    }
+  ]
+}
+
+{% endschema %}

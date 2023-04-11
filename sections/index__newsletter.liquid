@@ -1,0 +1,364 @@
+{% comment %}
+** Newsletter **
+{% endcomment %}
+
+{% comment %} Assign object as block or section {% endcomment %}
+{% if type == 'block' %}
+  {%- assign object = block -%}
+{% else %}
+  {%- assign object = section -%}
+{% endif %}
+
+{% comment %} Content Settings {% endcomment %}
+{%- assign heading = object.settings.newsletter_title -%}
+{%- assign subheading = object.settings.newsletter_richtext -%}
+{%- assign background_image = object.settings.background_image -%}
+{%- assign image_darken = object.settings.image_darken -%}
+{%- assign image = object.settings.image -%}
+{%- assign image_position = object.settings.image_position -%}
+{% comment %} End content settings {% endcomment %}
+
+{% comment %} Is the color set to transparent? {% endcomment %}
+{%- assign text_alpha = object.settings.text_color | color_extract: 'alpha' -%}
+
+{%- capture section_css -%}
+
+  {% if background_image != blank %}
+    .has-background .newsletter__wrapper {
+      background-image: url({{ background_image | img_url: '2000x' }});
+      background-position: {{ background_image.presentation.focal_point }};
+    }
+  {% endif %}
+
+  .section {
+    background-color: {{ object.settings.background_color }};
+  }
+
+  .newsletter-container {
+    {% if object.settings.width == 'wide' %}
+    width: 100%;
+    {% endif %}
+  }
+
+  .newsletter__text {
+    color: {% if text_alpha != 0 %}{{ object.settings.text_color }}{% else %}{{ settings.regular_color }}{% endif %}
+  }
+
+{%- endcapture -%}
+
+{% style %}
+  #shopify-section-{{ object.id }} {
+    padding-top: {{ object.settings.padding_top }}px;
+    padding-bottom: {{ object.settings.padding_bottom }}px;
+    padding-left: {{ object.settings.padding_left }}px;
+    padding-right: {{ object.settings.padding_right }}px;
+    {% if object.settings.width == 'wide' %}
+      width: 100%;
+    {% elsif object.settings.width == 'half' %}
+      width: 50%;
+    {% endif %}
+  }
+
+  #shopify-section-{{ object.id }} .newsletter__wrapper {
+    {% if object.settings.width == 'half' %}
+      max-width: 100%;
+    {% endif %}
+  }
+
+  {% render 'css-loop',
+          css: section_css,
+          id: object.id
+  %}
+  {% render 'css-loop',
+          css: object.settings.custom_css,
+          id: object.id
+  %}
+{% endstyle %}
+
+{% comment %} HTML markup {% endcomment %}
+{% if image != blank %}
+  <div class="newsletter__image--mobile-wrapper has-image-crop">
+    {%
+      render 'image-element',
+      image: image,
+      alt: image.alt,
+      stretch_width: true,
+      focal_point: image.presentation.focal_point,
+    %}
+  </div>
+{% endif %}
+<section class="section newsletter-section newsletter-section--is-width-{{ object.settings.width }}
+                {{ object.settings.css_class }}
+                {{ newsletter_class }}
+                is-width-{{ object.settings.width }}
+                {% if image != blank %}
+                  has-full-width-crop
+                {% endif %}
+                {% if background_alpha != 0 or gradient_alpha != 0 or background_image != blank %}
+                  has-background
+                {% endif %}
+                {% if background_image != blank %}
+                  dark-overlay-{{ image_darken }}
+                {% endif %}"
+                {% if object.settings.animation != "none" %}
+                  data-scroll-class="{{ object.settings.animation }}"
+                {% endif %} >
+  <div class="newsletter-container is-flex
+              {% if image_position == 'right' %}is-flex-row-reverse{% endif %}">
+    {% if image != blank %}
+      <div class="newsletter__image one-half column has-image-crop">
+        {%
+          render 'image-element',
+          image: image,
+          alt: image.alt,
+          stretch_width: true,
+          calculate_wrap: true,
+          focal_point: image.presentation.focal_point,
+        %}
+      </div>
+    {% endif %}
+
+    <div class="newsletter__wrapper column {% if image != blank %} is-active-image one-half medium-down--one-whole{% else %} one-whole {% endif %}">
+      <div class="newsletter__text-wrapper text-align-{{ object.settings.newsletter_section_text_align }}">
+        <h2 class="newsletter__heading newsletter__text title">{{ heading }}</h2>
+        <div class="newsletter__subheading newsletter__text">{{ subheading }}</div>
+      </div>
+
+      {% render 'newsletter-form',
+              type: 'section',
+              display_first_name: section.settings.display_first_name,
+              display_last_name: section.settings.display_last_name
+      %}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+
+{
+  "name": "Newsletter",
+  "class": "newsletter",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "display_first_name",
+      "label": "Show first name",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "display_last_name",
+      "label": "Show last name",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "newsletter_title",
+      "label": "Heading",
+      "default": "Subscribe"
+    },
+    {
+      "type": "richtext",
+      "id": "newsletter_richtext",
+      "label": "Subheading",
+      "default": "<p>Sign up to get the latest on sales, new releases and more …</p>"
+    },
+    {
+      "type": "select",
+      "id": "newsletter_section_text_align",
+      "label": "Text alignment",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background",
+      "default": "#E5E5E5"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text",
+      "default": "#000000"
+    },
+    {
+      "type": "header",
+      "content": "Background image"
+    },
+    {
+      "type": "image_picker",
+      "id": "background_image",
+      "label": "Background image",
+      "info": "1600 x 300px recommended"
+    },
+    {
+      "type": "checkbox",
+      "id": "image_darken",
+      "label": "Darken image",
+      "default": false
+    },
+    {
+      "type": "header",
+      "content": "Feature image"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image",
+      "info": "1024 x 1024px recommended"
+    },
+    {
+      "type": "select",
+      "id": "image_position",
+      "label": "Image position",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "select",
+      "id": "width",
+      "label": "Width",
+      "default": "wide",
+      "options": [
+        {
+          "value": "half",
+          "label": "Half"
+        },
+        {
+          "value": "standard",
+          "label": "Standard"
+        },
+        {
+          "value": "wide",
+          "label": "Wide"
+        }
+      ]
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Top spacing",
+      "min": 0,
+      "max": 80,
+      "default": 0,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Bottom spacing",
+      "default": 0,
+      "min": 0,
+      "max": 80,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "padding_left",
+      "label": "Left spacing",
+      "min": 0,
+      "max": 80,
+      "default": 0,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "padding_right",
+      "label": "Right spacing",
+      "default": 0,
+      "min": 0,
+      "max": 80,
+      "unit": "px"
+    },
+    {
+      "type": "select",
+      "id": "animation",
+      "label": "Animation",
+      "default": "none",
+      "options": [
+        {
+          "value": "none",
+          "label": "None"
+        },
+        {
+          "value": "fadeIn",
+          "label": "Fade in"
+        },
+        {
+          "value": "fadeInDown",
+          "label": "Fade in down"
+        },
+        {
+          "value": "fadeInLeft",
+          "label": "Fade in left"
+        },
+        {
+          "value": "fadeInRight",
+          "label": "Fade in right"
+        },
+        {
+          "value": "slideInLeft",
+          "label": "Slide in left"
+        },
+        {
+          "value": "slideInRight",
+          "label": "Slide in right"
+        }
+      ]
+    },
+    {
+      "type": "header",
+      "content": "Advanced",
+      "info": "[Learn more](https://help.outofthesandbox.com/hc/en-us/articles/360022329373)"
+    },
+    {
+      "type": "text",
+      "id": "css_class",
+      "label": "CSS Class"
+    },
+    {
+      "type": "textarea",
+      "id": "custom_css",
+      "label": "Custom CSS"
+    }
+  ],
+  "presets": [{
+    "name": "Newsletter",
+    "category": "Social",
+    "settings": {
+    }
+  }]
+}
+
+{% endschema %}

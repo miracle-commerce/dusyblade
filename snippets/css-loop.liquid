@@ -1,0 +1,32 @@
+{% comment %}
+CSS loop - creates CSS declarations that are specific to the section or block
+
+Required values
+id: <number>
+css: <string>
+
+Example use:
+{% render 'css-loop' %}
+{% endcomment %}
+
+{%- if css != blank -%}
+  {%- assign declarations = css | split: '}' -%}
+  {%- for declaration in declarations -%}
+    {%- if declaration != '' -%}
+      #shopify-section-{{ id }} {{ declaration }} }
+    {%- endif -%}
+  {%- endfor -%}
+{%- endif -%}
+
+{% comment %}Is the section hidden?{% endcomment %}
+{%- if section.settings.css_class contains 'is-hidden-desktop-only' -%}
+  @media only screen and (min-width: 481px) {
+    #shopify-section-{{ id }} { display: none; }
+  }
+{%- endif -%}
+
+{%- if section.settings.css_class contains 'is-hidden-mobile-only' -%}
+  @media only screen and (max-width: 480px) {
+    #shopify-section-{{ id }} { display: none; }
+  }
+{%- endif -%}

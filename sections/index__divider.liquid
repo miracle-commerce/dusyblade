@@ -1,0 +1,242 @@
+{% comment %}
+** Divider **
+{% endcomment %}
+
+{%- assign divider_style = section.settings.divider_style -%}
+{%- assign divider_width = section.settings.divider_width -%}
+{%- assign divider_color = section.settings.divider_color -%}
+
+{% comment %} Is the color set to transparent? {% endcomment %}
+{%- assign divider_alpha = divider_color | color_extract: 'alpha' -%}
+
+{% comment %} Section specific CSS {% endcomment %}
+{% capture section_css -%}
+  .heading-divider:not(.heading-divider--vertical) {
+    border-color: {%- if divider_alpha != 0 -%}{{ divider_color }}{%- endif -%};
+    border-width: {%- if divider_width == 1 -%}thin{%- else -%}{{ divider_width }}px{%- endif -%};
+  }
+
+  .heading-divider--vertical {
+    background: {%- if divider_alpha != 0 -%}{{ divider_color }}{%- endif -%};
+    width: {{ divider_width }}px;
+  }
+{%- endcapture -%}
+
+{% style %}
+  #shopify-section-{{ section.id }} {
+    padding-top: {{ section.settings.padding_top }}px;
+    padding-bottom: {{ section.settings.padding_bottom }}px;
+    {% if section.settings.width == 'wide' %}
+      width: 100%;
+    {% endif %}
+  }
+
+  {%
+    render 'css-loop',
+    css: section_css,
+    id: section.id
+  %}
+
+  {%
+    render 'css-loop',
+    css: section.settings.custom_css,
+    id: section.id
+  %}
+{% endstyle %}
+
+{% comment %} HTML markup {% endcomment %}
+<section
+  class="
+    section
+    {{ section.settings.css_class }}
+    is-width-{{ section.settings.width }}
+  "
+  {% if section.settings.animation != "none" %}
+    data-scroll-class="{{ section.settings.animation }}"
+  {% endif %}
+>
+  <div class="container">
+    <div class="one-whole column">
+      <div
+        class="
+          divider-section__content
+          is-flex
+          is-flex-column
+          is-align-{{ section.settings.alignment }}
+        "
+      >
+        <div class="heading-divider heading-divider--{{ divider_style }}"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+{% schema %}
+  {
+    "name": "Divider",
+    "class": "divider-section",
+    "settings": [
+      {
+        "type": "select",
+        "id": "divider_style",
+        "label": "Style",
+        "default": "short",
+        "options": [
+          {
+            "value": "short",
+            "label": "Short horizontal"
+          },
+          {
+            "value": "long",
+            "label": "Long horizontal"
+          },
+          {
+            "value": "vertical",
+            "label": "Vertical"
+          }
+        ]
+      },
+      {
+        "type": "range",
+        "id": "divider_width",
+        "label": "Width",
+        "min": 0,
+        "max": 5,
+        "default": 2,
+        "unit": "px"
+      },
+      {
+        "type": "color",
+        "id": "divider_color",
+        "label": "Color",
+        "default": "rgba(0,0,0,0)"
+      },
+      {
+        "type": "select",
+        "id": "alignment",
+        "label": "Alignment",
+        "default": "center",
+        "options": [
+          {
+            "value": "start",
+            "label": "Left"
+          },
+          {
+            "value": "center",
+            "label": "Center"
+          },
+          {
+            "value": "end",
+            "label": "Right"
+          }
+        ]
+      },
+      {
+        "type": "header",
+        "content": "Layout"
+      },
+      {
+        "type": "select",
+        "id": "width",
+        "label": "Width",
+        "default": "standard",
+        "options": [
+          {
+            "value": "standard",
+            "label": "Standard"
+          },
+          {
+            "value": "wide",
+            "label": "Wide"
+          }
+        ]
+      },
+      {
+        "type": "range",
+        "id": "padding_top",
+        "label": "Top spacing",
+        "min": 0,
+        "max": 80,
+        "default": 20,
+        "unit": "px"
+      },
+      {
+        "type": "range",
+        "id": "padding_bottom",
+        "label": "Bottom spacing",
+        "min": 0,
+        "max": 80,
+        "default": 20,
+        "unit": "px"
+      },
+      {
+        "type": "select",
+        "id": "animation",
+        "label": "Animation",
+        "default": "none",
+        "options": [
+          {
+            "value": "none",
+            "label": "None"
+          },
+          {
+            "value": "fadeIn",
+            "label": "Fade in"
+          },
+          {
+            "value": "fadeInDown",
+            "label": "Fade in down"
+          },
+          {
+            "value": "fadeInLeft",
+            "label": "Fade in left"
+          },
+          {
+            "value": "fadeInRight",
+            "label": "Fade in right"
+          },
+          {
+            "value": "slideInLeft",
+            "label": "Slide in left"
+          },
+          {
+            "value": "slideInRight",
+            "label": "Slide in right"
+          },
+          {
+            "value": "zoomIn",
+            "label": "Zoom in"
+          }
+        ]
+      },
+      {
+        "type": "header",
+        "content": "Advanced"
+      },
+      {
+        "type": "paragraph",
+        "content": "[Learn more](https://help.outofthesandbox.com/hc/en-us/articles/360022329373)"
+      },
+      {
+        "type": "text",
+        "id": "css_class",
+        "label": "CSS Class"
+      },
+      {
+        "type": "textarea",
+        "id": "custom_css",
+        "label": "Custom CSS"
+      }
+    ],
+    "presets": [
+      {
+        "name": "Divider",
+        "category": "Layout",
+        "settings": {
+
+        }
+      }
+    ]
+  }
+{% endschema %}

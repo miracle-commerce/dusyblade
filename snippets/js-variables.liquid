@@ -1,0 +1,160 @@
+{% comment %} Store all of the liquid variables that you want to reference in your js on global namespaced objects - allows you to run linters on your javascript! {% endcomment %}
+{% capture js_variables %}
+
+
+window.PXUTheme = window.PXUTheme || {};
+
+{% comment %} /* # Theme information for apps
+================================================== */ {% endcomment %}
+window.PXUTheme.info = {
+  name: 'Flex',
+  version: '3.0.0'
+}
+
+{% comment %} /* # Currency
+================================================== */ {% endcomment %}
+window.PXUTheme.currency = {};
+window.PXUTheme.currency.show_multiple_currencies = {{ settings.show_multiple_currencies | json }};
+window.PXUTheme.currency.presentment_currency = {{ cart.currency.iso_code | strip_html | json }};
+window.PXUTheme.currency.default_currency = {{ settings.default_currency | default: shop.currency | json }};
+window.PXUTheme.currency.display_format = {{ settings.currency_format | json }};
+window.PXUTheme.currency.money_format = {{ shop[settings.currency_format] | strip_html | json }};
+window.PXUTheme.currency.money_format_no_currency = {{ shop.money_format | strip_html | json }};
+window.PXUTheme.currency.money_format_currency = {{ shop.money_with_currency_format | strip_html | json }};
+window.PXUTheme.currency.native_multi_currency = {% if shop.enabled_currencies.size > 1 %}true{% else %}false{% endif %};
+window.PXUTheme.currency.iso_code = {{ cart.currency.iso_code | json }};
+window.PXUTheme.currency.symbol = {{ cart.currency.symbol | json }};
+
+
+{% comment %} /* # Window
+================================================== */ {% endcomment %}
+window.PXUTheme.allCountryOptionTags = {{ all_country_option_tags | json }};
+
+
+{% comment %} /* # Icons
+================================================== */ {% endcomment %}
+
+window.PXUTheme.icons = {};
+window.PXUTheme.icons.right_caret = {% capture rightCaret %}{% render 'icon', name: 'right-caret' %}{% endcapture %}{{ rightCaret | json }};
+
+{% comment %} /* # Theme settings
+================================================== */ {% endcomment %}
+window.PXUTheme.theme_settings = {};
+window.PXUTheme.contentCreator = {};
+window.PXUTheme.routes = window.PXUTheme.routes || {};
+
+{% comment %} Routes {% endcomment %}
+window.PXUTheme.routes.cart_url = "{{ routes.cart_url }}";
+window.PXUTheme.routes.root_url = "{{ routes.root_url }}";
+window.PXUTheme.routes.search_url = "{{ routes.search_url }}";
+window.PXUTheme.routes.collection_url = "{{ routes.collections_url }}";
+window.PXUTheme.routes.product_recommendations_url = "{{ routes.product_recommendations_url }}";
+
+window.PXUTheme.theme_settings.icon_style = {{ settings.icon | json }};
+window.PXUTheme.theme_settings.is_ie_11 = !!window.MSInputMethodContext && !!document.documentMode;
+window.PXUTheme.theme_settings.image_loading_style = {{ settings.image_loading_style | json }};
+{% comment %} Account {% endcomment %}
+window.PXUTheme.theme_settings.userLoggedIn = {% if shop.customer_accounts_enabled and customer %}true{% else %}false{% endif %};
+window.PXUTheme.theme_settings.userAddress = '{% if shop.customer_accounts_enabled and customer %}{{ customer.default_address }}{% endif %}';
+{% comment %} Inventory {% endcomment %}
+window.PXUTheme.theme_settings.display_inventory_left = {{ settings.display_inventory_left }};
+window.PXUTheme.theme_settings.inventory_threshold = "{{ settings.inventory_threshold | escape }}";
+window.PXUTheme.theme_settings.limit_quantity = "{{ settings.limit_quantity | escape }}";
+{% comment %} Layout {% endcomment %}
+window.PXUTheme.theme_settings.announcement_enabled = {{ settings.show_announcement_bar | json }};
+window.PXUTheme.theme_settings.header_layout = {{ settings.header_layout | json }};
+window.PXUTheme.theme_settings.footer_layout = {{ settings.footer_layout | json }};
+window.PXUTheme.theme_settings.search_layout = {{ settings.search_display_style | json }};
+{% comment %} Product {% endcomment %}
+window.PXUTheme.theme_settings.product_form_style = {{ settings.product_form_style | json }};
+window.PXUTheme.theme_settings.show_multiple_currencies = {{ settings.show_multiple_currencies | json }};
+window.PXUTheme.theme_settings.stickers_enabled = {{ settings.stickers_enabled | json }};
+window.PXUTheme.theme_settings.show_secondary_image = {{ settings.show_secondary_image | json }};
+window.PXUTheme.theme_settings.show_collection_swatches = {{ settings.collection_swatches | json }};
+window.PXUTheme.theme_settings.enable_quickshop = {{ settings.enable_quickshop | json }};
+window.PXUTheme.theme_settings.video_looping = {{ settings.video_looping | json }};
+{% comment %} Search {% endcomment %}
+window.PXUTheme.theme_settings.enable_autocomplete = {{ settings.enable_autocomplete | json }};
+window.PXUTheme.theme_settings.search_to_display = {{ settings.search_to_display | json }};
+window.PXUTheme.theme_settings.search_option = {{ settings.search_option | json }};
+{% comment %} Shipping Information {% endcomment %}
+window.PXUTheme.theme_settings.shipping_calculator_enabled = {% if settings.enable_shipping_calculator %}true{% else %}false{% endif %};
+window.PXUTheme.theme_settings.customer_logged_in = {% if customer and customer.default_address.country %}true{% else %}false{% endif %};
+
+
+
+{% comment %} /* # Media queries
+================================================== */ {% endcomment %}
+window.PXUTheme.media_queries = {};
+window.PXUTheme.media_queries.small = window.matchMedia( "(max-width: 480px)" );
+window.PXUTheme.media_queries.medium = window.matchMedia( "(max-width: 798px)" );
+window.PXUTheme.media_queries.large = window.matchMedia( "(min-width: 799px)" );
+window.PXUTheme.media_queries.larger = window.matchMedia( "(min-width: 960px)" );
+window.PXUTheme.media_queries.xlarge = window.matchMedia( "(min-width: 1200px)" );
+window.PXUTheme.media_queries.ie10 = window.matchMedia( "all and (-ms-high-contrast: none), (-ms-high-contrast: active)" );
+window.PXUTheme.media_queries.tablet = window.matchMedia( "only screen and (min-width: 799px) and (max-width: 1024px)" );
+
+{% comment %} /* # Translation
+================================================== */ {% endcomment %}
+window.PXUTheme.translation = {};
+window.PXUTheme.translation.product_savings = "{{ 'products.product.savings' | t | strip_newlines | escape }}";
+window.PXUTheme.translation.free_price_text = "{{ settings.free_price_text }}";
+{% comment %} Breadcrumbs {% endcomment %}
+window.PXUTheme.translation.page_text = "{{ 'general.breadcrumbs.page_text' | t | strip_newlines | escape }}";
+window.PXUTheme.translation.of_text = "{{ 'general.breadcrumbs.of_text' | t | strip_newlines | escape }}";
+{% comment %} Notify form {% endcomment %}
+window.PXUTheme.translation.notify_form_success = "{{ 'products.notify_form.post_success' | t | strip_newlines | escape }}";
+window.PXUTheme.translation.notify_form_email = "{{ 'products.notify_form.email' | t | strip_newlines | escape }}";
+window.PXUTheme.translation.contact_email = "{{ contact.fields.email }}";
+window.PXUTheme.translation.customer_email = "{{ customer.email }}";
+window.PXUTheme.translation.notify_form_send = "{{ 'products.notify_form.send' | t | strip_newlines | escape }}";
+window.PXUTheme.translation.email_content = "{{ 'products.notify_form.email_content' | t | strip_newlines | escape }}";
+{% comment %} Cart {% endcomment %}
+window.PXUTheme.translation.cartItemsOne = "{{ 'layout.counts.items.one' | t | strip_newlines | escape }}";
+window.PXUTheme.translation.cartItemsOther = "{{ 'layout.counts.items.other' | t | strip_newlines | escape }}";
+window.PXUTheme.translation.addToCart = "{{ 'products.product.add_to_cart' | t | strip_newlines | escape }}";
+window.PXUTheme.translation.soldOut = "{{ 'products.product.sold_out' | t | strip_newlines | escape }}";
+window.PXUTheme.translation.unavailable = "{{ 'products.product.unavailable' | t | strip_newlines | escape }}";
+{% comment %} Search {% endcomment %}
+window.PXUTheme.translation.top_suggestions = "{{ 'general.search.top_suggestions' | strip_html | t | strip_newlines | escape }}";
+window.PXUTheme.translation.all_results = "{{ 'general.search.all_results' | strip_html | t | strip_newlines | escape }}";
+window.PXUTheme.translation.no_results = "{{ 'general.search.no_results' | strip_html | t | strip_newlines | escape }}";
+{% comment %} Product {% endcomment %}
+window.PXUTheme.translation.select_variant = "{{ 'products.product.select_variant' | t | strip_newlines | escape }}";
+window.PXUTheme.translation.product_count_one = "{{ 'products.product.items_left_count.one' | t | strip_newlines | escape }}";
+window.PXUTheme.translation.product_count_other = "{{ 'products.product.items_left_count.other' | t | strip_newlines | escape }}";
+window.PXUTheme.translation.sold_out = "{{ 'products.product.sold_out' | t | strip_newlines | escape }}";
+window.PXUTheme.translation.savings = "{{ 'products.product.savings' | t | strip_newlines | escape }}";
+window.PXUTheme.translation.best_seller = "{{ 'collections.general.best_seller' | t | strip_newlines | escape }}";
+window.PXUTheme.translation.coming_soon = "{{ 'collections.general.coming_soon' | t | strip_newlines | escape }}";
+window.PXUTheme.translation.new_sticker = "{{ 'collections.general.new' | t | strip_newlines | escape }}";
+window.PXUTheme.translation.pre_order = "{{ 'collections.general.pre_order' | t | strip_newlines | escape }}";
+window.PXUTheme.translation.sale = "{{ 'collections.general.sale' | t | strip_newlines | escape }}";
+window.PXUTheme.translation.staff_pick = "{{ 'collections.general.staff_pick' | t | strip_newlines | escape }}";
+window.PXUTheme.translation.free = "{{ settings.free_price_text | strip_newlines | escape }}";
+window.PXUTheme.translation.from = "{{ 'products.general.from' | t | strip_newlines | escape }}";
+{% comment %} Newsletter form {% endcomment %}
+window.PXUTheme.translation.newsletter_form_success = "{{ 'general.newsletter_form.success_text' | t | strip_newlines | escape }}";
+{% comment %} Contact form {% endcomment %}
+window.PXUTheme.translation.contact_form_success = "{{ 'contact.form.post_success' | strip_html | t | strip_newlines | escape }}";
+window.PXUTheme.translation.contact_form_checkbox_error = "{{ 'contact.form.checkbox_validation' | strip_html | t | strip_newlines | escape}}";
+{% comment %} Shipping Calculator {% endcomment %}
+window.PXUTheme.translation.shipping_calculator_submit_btn = "{{ 'cart.shipping_calculator.submit_button_label' | t | strip_newlines | escape }}";
+window.PXUTheme.translation.shipping_calculator_submit_btn_disabled = "{{ 'cart.shipping_calculator.submit_button_label_disabled' | t | strip_newlines | escape }}";
+window.PXUTheme.translation.shipping_calculator_zip_code = "{{ 'cart.shipping_calculator.zip_code' | t | strip_newslines | escape }}";
+window.PXUTheme.translation.shipping_calculator_is_not_valid = "{{ 'cart.shipping_calculator.is_not_valid' | t | strip_newslines }}";
+window.PXUTheme.translation.shipping_calculator_is_not_blank = "{{ 'cart.shipping_calculator.is_not_blank' | t | strip_newslines }}";
+window.PXUTheme.translation.shipping_calculator_is_not_supported = "{{ 'cart.shipping_calculator.is_not_supported' | t | strip_newslines }}";
+window.PXUTheme.translation.no_shipping_destination = "{{ 'cart.shipping_calculator.no_shipping_destination' | t | strip_newlines | escape }}";
+window.PXUTheme.translation.additional_rate = "{{ 'cart.shipping_calculator.available_rates' | t | strip_newlines | escape }}";
+window.PXUTheme.translation.additional_rate_at = "{{ 'cart.shipping_calculator.at' | t | strip_newlines | escape }}";
+window.PXUTheme.translation.additional_rates_part_1 = "{{ 'cart.shipping_calculator.additional_rates_part_1' | t | strip_newlines | escape }}";
+window.PXUTheme.translation.additional_rates_part_2 = "{{ 'cart.shipping_calculator.additional_rates_part_2' | t | strip_newlines | escape }}";
+window.PXUTheme.translation.additional_rates_part_3 = "{{ 'cart.shipping_calculator.additional_rates_part_3' | t | strip_newlines | escape }}";
+
+
+
+
+{% endcapture %}
+{%- assign js_variables = js_variables | split: 'Shopify.' -%}
+{%- for variable in js_variables -%}{%- assign variableblock = variable | strip -%}{% if forloop.first %}{{ variableblock }}{% else %}{{ variableblock | prepend: 'Shopify.' }}{% endif %}{%- endfor -%}

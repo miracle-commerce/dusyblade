@@ -1,0 +1,309 @@
+{%- comment -%} Product Recommendations  {%- endcomment -%}
+
+{% assign id = section.id %}
+{% comment %} Layout {% endcomment %}
+{% assign width = section.settings.width %}
+{% assign padding_top = section.settings.padding_top %}
+{% assign padding_bottom = section.settings.padding_bottom %}
+{% assign animation = section.settings.animation | default: 'none' %}
+{% comment %} Advanced {% endcomment %}
+{% assign css_class = section.settings.css_class %}
+{% assign custom_css = section.settings.custom_css %}
+
+{% comment %} Content settings {% endcomment %}
+{%- assign product_recommendations_heading = section.settings.product_recommendations_heading -%}
+{%- assign product_recommendations_style = section.settings.product_recommendations_style -%}
+{% comment %} End content settings {% endcomment %}
+
+{% comment %} Check whether product has any tags for custom related products {% endcomment %}
+{% for tag in product.tags %}
+  {% if tag contains 'meta-related-collection-' %}
+    {%- assign related_collection_handle = tag | remove: 'meta-related-collection-' -%}
+  {% endif %}
+{% endfor %}
+
+{% if related_collection_handle != blank %}
+  {% comment %} Show products based on merchant-added tags prepended with 'meta-related-collection-' {% endcomment %}
+  {%- assign collection_size = collections[related_collection_handle].all_products_count -%}
+
+  {% if collection_size > 0 %}
+    {%- assign custom_collection = collections[related_collection_handle] -%}
+    {%- assign products = custom_collection.products -%}
+  {% endif %}
+
+  {% if custom_collection and collection_size > 0 %}
+    {%- assign show_custom_collection = true -%}
+  {% endif %}
+{% else %}
+  {% comment %} Shopify generated dynamic recommendations, falling back to default related products (based on parent collection) {% endcomment %}
+  {%- assign show_custom_collection = false -%}
+  {%- assign dynamic_collection = recommendations -%}
+  {%- assign products = recommendations.products -%}
+  {%- assign products_length = products.size -%}
+  {%- assign show_dynamic_collection = true -%}
+{% endif %}
+
+{% style %}
+  #shopify-section-{{ id }} {
+    padding-top: {{ padding_top }}px;
+    padding-bottom: {{ padding_bottom }}px;
+    {% if width == 'wide' %}
+      width: 100%;
+    {% endif %}
+  }
+
+  {%
+    render 'css-loop',
+    css: custom_css,
+    id: id
+  %}
+{% endstyle %}
+
+{% comment %} HTML markup {% endcomment %}
+<section class="section
+        {{ css_class }}
+        is-width-{{ width }}"
+        {% if animation != "none" %}
+          data-scroll-class="{{ animation }}"
+        {% endif %}>
+  {% capture product_collections_markup %}
+    <div class="container">
+      {% if product_recommendations_heading != blank %}
+        {%
+          render 'heading',
+          title: product_recommendations_heading,
+          heading_tag: 'h4',
+          context: 'recommended-products',
+          text_alignment: 'center'
+        %}
+      {% endif %}
+
+      {% if product_recommendations_style == 'grid' %}
+        {%
+          render 'product-loop',
+          products: products,
+          products_per_row: section.settings.products_per,
+          limit: section.settings.recommended_products_limit,
+          align_height: section.settings.align_height,
+          height: section.settings.collection_height,
+          context: 'product_recommendations'
+        %}
+      {% else %}
+      <div
+        class="
+          one-whole column
+          related-products
+          related-products--slider
+          js-related-products-slider
+        "
+      >
+        {%
+          render 'product-slider',
+          products: products,
+          per_slide: section.settings.products_per,
+          limit: section.settings.recommended_products_limit,
+          align_height: section.settings.align_height,
+          height: section.settings.collection_height,
+          related_products: true,
+          product_recommendations: true
+        %}
+      </div>
+      {% endif %}
+    </div>
+  {% endcapture %}
+
+  <div
+    class="product-recommendations"
+    data-base-url="{{ routes.product_recommendations_url }}"
+    data-product-id="{{ product.id }}"
+    data-section-id="{{ section.id }}"
+    data-limit="{{ section.settings.recommended_products_limit }}"
+    data-enabled="{{ section.settings.show_product_recommendations }}"
+  >
+    {{ product_collections_markup }}
+  </div>
+</section>
+
+<script
+  type="application/json"
+  data-section-id="{{ section.id }}"
+  data-section-data
+>
+  {
+    "show_custom_collection": {{ show_custom_collection | json }},
+    "show_product_recommendations": {{ section.settings.show_product_recommendations | json }}
+  }
+</script>
+<script data-theme-editor-load-script src="{{ 'z__jsRecommendedProducts.js' | asset_url }}"></script>
+
+{% schema %}
+  {
+    "name": "Related products",
+    "class": "recommended-products-section jsRecommendedProducts",
+    "templates": [
+      "product"
+    ],
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "show_product_recommendations",
+        "label": "Show dynamic recommendations",
+        "info": "Dynamic recommendations change and improve with time. [Learn more](https://help.shopify.com/en/themes/development/recommended-products)",
+        "default": true
+      },
+      {
+        "type": "radio",
+        "id": "product_recommendations_style",
+        "label": "Layout",
+        "default": "grid",
+        "options": [
+          {
+            "value": "slider",
+            "label": "Slider"
+          },
+          {
+            "value": "grid",
+            "label": "Grid"
+          }
+        ]
+      },
+      {
+        "type": "text",
+        "id": "product_recommendations_heading",
+        "label": "Heading",
+        "default": "You may also like"
+      },
+      {
+        "type": "range",
+        "id": "products_per",
+        "label": "Products per row",
+        "min": 2,
+        "max": 4,
+        "step": 1,
+        "default": 3
+      },
+      {
+        "type": "range",
+        "id": "recommended_products_limit",
+        "label": "Limit products",
+        "min": 2,
+        "max": 10,
+        "step": 1,
+        "default": 6
+      },
+      {
+        "type": "header",
+        "content": "Product thumbnails"
+      },
+      {
+        "type": "checkbox",
+        "id": "align_height",
+        "label": "Align to height"
+      },
+      {
+        "type": "range",
+        "id": "collection_height",
+        "label": "Product image height",
+        "min": 150,
+        "max": 400,
+        "step": 10,
+        "default": 200,
+        "unit": "px",
+        "info": "Applied when 'Align to height' is enabled. [Learn more](https://help.outofthesandbox.com/hc/en-us/articles/360022543913)"
+      },
+      {
+        "type": "header",
+        "content": "Layout"
+      },
+      {
+        "type": "select",
+        "id": "width",
+        "label": "Width",
+        "default": "standard",
+        "options": [
+          {
+            "value": "standard",
+            "label": "Standard"
+          },
+          {
+            "value": "wide",
+            "label": "Wide"
+          }
+        ]
+      },
+      {
+        "type": "range",
+        "id": "padding_top",
+        "label": "Top spacing",
+        "min": 0,
+        "max": 80,
+        "default": 20,
+        "unit": "px"
+      },
+      {
+        "type": "range",
+        "id": "padding_bottom",
+        "label": "Bottom spacing",
+        "min": 0,
+        "max": 80,
+        "default": 20,
+        "unit": "px"
+      },
+      {
+        "type": "select",
+        "id": "animation",
+        "label": "Animation",
+        "default": "none",
+        "options": [
+          {
+            "value": "none",
+            "label": "None"
+          },
+          {
+            "value": "fadeIn",
+            "label": "Fade in"
+          },
+          {
+            "value": "fadeInDown",
+            "label": "Fade in down"
+          },
+          {
+            "value": "fadeInLeft",
+            "label": "Fade in left"
+          },
+          {
+            "value": "fadeInRight",
+            "label": "Fade in right"
+          },
+          {
+            "value": "slideInLeft",
+            "label": "Slide in left"
+          },
+          {
+            "value": "slideInRight",
+            "label": "Slide in right"
+          },
+          {
+            "value": "zoomIn",
+            "label": "Zoom in"
+          }
+        ]
+      },
+      {
+        "type": "header",
+        "content": "Advanced",
+        "info": "[Learn more](https://help.outofthesandbox.com/hc/en-us/articles/360022329373)"
+      },
+      {
+        "type": "text",
+        "id": "css_class",
+        "label": "CSS Class"
+      },
+      {
+        "type": "textarea",
+        "id": "custom_css",
+        "label": "Custom CSS"
+      }
+    ]
+  }
+{% endschema %}

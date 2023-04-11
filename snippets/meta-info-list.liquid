@@ -1,0 +1,35 @@
+{% comment %}
+Required values
+article: <string>
+blog_author: <string>
+blog_date: <string>
+blog_read_time: <string>
+blog_comment_count: <string>
+{% endcomment %}
+
+<ul class="meta-info-list">
+  {% if blog_author %}
+    <li class="meta-info-list__item">
+      <a href="{{ routes.search_url }}?type=author&q={{ article.author }}">{{ 'blogs.article.by' | t }} {% if article %}{{ article.author }}{% else %}{{ shop.name }}{% endif %}</a>
+    </li>
+  {% endif %}
+  {% if blog_date %}
+    <li class="meta-info-list__item">
+      <span class="featured-article__date">{% if article %}{{ article.published_at | date: "%B %d, %Y" }}{% else %}{{ "today" | date: "%B %d, %Y" }}{% endif %}</span>
+    </li>
+  {% endif %}
+  {% if blog_read_time %}
+    <li class="meta-info-list__item">
+      {% render 'blog__read-time', article: article %}
+    </li>
+  {% endif %}
+  {% if settings.disqus_enabled and blog_comment_count %}
+    <li class="meta-info-list__item">
+      <a href="{{ article.url }}#disqus_thread" data-disqus-identifier="{{ article.id }}" class="disqus-comment-count">{{ 'blogs.counts.comments_with_count' | t: count: 0 }}</a>
+    </li>
+  {% elsif blog_comment_count and article.comments_count > 0 %}
+    <li class="meta-info-list__item">
+      <a href="{{ article.url }}#comments">{{ 'blogs.counts.comments_with_count' | t: count: article.comments_count }}</a>
+    </li>
+  {% endif %}
+</ul>

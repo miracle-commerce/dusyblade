@@ -1,0 +1,214 @@
+{% comment %}
+** Banner **
+{% endcomment %}
+
+{% assign id = section.id %}
+{% comment %}Layout{% endcomment %}
+{% assign heading_alignment = section.settings.heading_alignment %}
+{% assign vertical_spacing = section.settings.vertical_spacing %}
+{% assign width = section.settings.width %}
+{% assign padding_top = section.settings.padding_top %}
+{% assign padding_bottom = section.settings.padding_bottom %}
+{% assign animation = section.settings.animation | default: 'none' %}
+{% assign banner_height = section.settings.banner_height %}
+{% comment %} Advanced {% endcomment %}
+{% assign css_class = section.settings.css_class %}
+{% assign custom_css = section.settings.custom_css %}
+
+{% style %}
+  #shopify-section-{{ id }} {
+    padding-top: {{ padding_top }}px;
+    padding-bottom: {{ padding_bottom }}px;
+    {% if width == 'wide' -%}
+      width: 100%;
+    {%- endif %}
+  }
+
+  {% render 'css-loop',
+          css: section_css,
+          id: id
+  %}
+  {% render 'css-loop',
+          css: custom_css,
+          id: id
+  %}
+{% endstyle %}
+
+{% assign image = section.settings.image %}
+{% assign subtitle = section.settings.subtitle %}
+
+{% if template.name == 'cart' %}
+  {%- capture title -%}
+    {{'cart.general.title' | t }}
+  {%- endcapture -%}
+{% elsif template.name == 'search' %}
+  {% capture title %}
+    {{ 'general.search.title' | t }}
+  {% endcapture %}
+{% elsif template.name == '404' %}
+  {% capture title %}
+    {{ 'general.404.title' | t }}
+  {% endcapture %}
+{% elsif template.name == 'blog' %}
+  {% assign title = blog.title %}
+{% elsif template.name == 'article' %}
+  {% assign title = article.title %}
+  {% assign image = article.image %}
+{% elsif template.name == 'collection' %}
+  {% assign title = collection.title %}
+  {%- if collection.image -%}
+    {% assign image = collection.image %}
+  {%- elsif section.settings.image -%}
+    {% assign image = section.settings.image %}
+  {%- else %}
+    {% assign image = collection.products.first.featured_image %}
+  {% endif %}
+{% else %}
+  {% assign title = page.title %}
+{% endif %}
+
+<section class="section
+                {{ css_class }}
+                is-width-{{ width }}">
+  <div class="container
+              {% if width == 'wide' %}
+                equal-columns--outside-trim
+              {% endif %}">
+    <div class="banner__wrapper
+                one-whole
+                column
+                dark-overlay-{{ section.settings.image_darken }}
+                is-{{ banner_height }}">
+      {% if image != blank %}
+        {%
+          render 'image-element',
+          image: image,
+          alt: image.alt,
+          stretch_width: true,
+          focal_point: image.presentation.focal_point,
+        %}
+      {% else %}
+        {{ 'lifestyle-2' | placeholder_svg_tag: 'placeholder-svg' }}
+      {% endif %}
+      <div class="banner__content card-content">
+        <div class="banner__text text-align-center">
+          <h1 class="banner__heading title">{{ title }}</h1>
+          {% if subtitle != blank %}
+            <p class="banner__subheading subtitle">{{ subtitle }}</p>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+
+{
+  "name": "Banner",
+  "class": "banner overlaid-header-option",
+  "templates": [
+    "page",
+    "collection",
+    "blog",
+    "article",
+    "cart",
+    "404",
+    "search"
+  ],
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image",
+      "info": "1800 x 800px recommended"
+    },
+    {
+      "type": "checkbox",
+      "id": "image_darken",
+      "label": "Darken banner image",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "subtitle",
+      "label": "Subheading",
+      "default": "Subheading"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "select",
+      "id": "width",
+      "label": "Width",
+      "default": "wide",
+      "options": [
+        {
+          "value": "standard",
+          "label": "Standard"
+        },
+        {
+          "value": "wide",
+          "label": "Wide"
+        }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "banner_height",
+      "label": "Banner height",
+      "default": "medium",
+      "options": [
+        {
+          "value": "small",
+          "label": "Small"
+        },
+        {
+          "value": "medium",
+          "label": "Medium"
+        },
+        {
+          "value": "large",
+          "label": "Large"
+        }
+      ]
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Top spacing",
+      "min": 0,
+      "max": 80,
+      "default": 0,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Bottom spacing",
+      "min": 0,
+      "max": 80,
+      "default": 0,
+      "unit": "px"
+    },
+    {
+      "type": "header",
+      "content": "Advanced",
+      "info": "[Learn more](https://help.outofthesandbox.com/hc/en-us/articles/360022329373)"
+    },
+    {
+      "type": "text",
+      "id": "css_class",
+      "label": "CSS Class"
+    },
+    {
+      "type": "textarea",
+      "id": "custom_css",
+      "label": "Custom CSS"
+    }
+  ]
+}
+
+{% endschema %}

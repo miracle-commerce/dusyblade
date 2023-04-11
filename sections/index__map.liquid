@@ -1,0 +1,331 @@
+{% comment %}
+** Map **
+{% endcomment %}
+
+{%- capture map_style_json -%}
+  {% render 'map-styles', name: section.settings.map_style %}
+{%- endcapture -%}
+
+{% comment %} Content settings {% endcomment %}
+{%- assign map_address = section.settings.map_address -%}
+{%- assign map_height = section.settings.map_height -%}
+{%- assign zoom_level = section.settings.zoom_level -%}
+{%- assign map_image = section.settings.map_image -%}
+{% comment %} End content settings {% endcomment %}
+
+{% comment %} Section specific CSS {% endcomment %}
+{%- capture section_css -%}
+  #map--{{ section.id }} {
+    height: {{ map_height }}px;
+    width: 100%;
+    overflow: hidden;
+  }
+
+  .map {
+    width: 100%;
+    height: 100%;
+  }
+{%- endcapture -%}
+
+{% style %}
+  #shopify-section-{{ section.id }} {
+    padding-top: {{ section.settings.padding_top }}px;
+    padding-bottom: {{ section.settings.padding_bottom }}px;
+    padding-left: {{ section.settings.padding_left }}px;
+    padding-right: {{ section.settings.padding_right }}px;
+    {% if section.settings.width == 'wide' %}
+      width: 100%;
+    {% elsif section.settings.width == 'half' %}
+      width: 50%;
+    {% endif %}
+  }
+  {% render 'css-loop',
+          css: section_css,
+          id: section.id
+  %}
+  {% render 'css-loop',
+          css: section.settings.custom_css,
+          id: section.id
+  %}
+{% endstyle %}
+
+{% comment %} HTML markup {% endcomment %}
+<section class="section
+                {{ section.settings.css_class }}
+                is-width-{{ section.settings.width }}"
+          {% if section.settings.animation != "none" %}
+            data-scroll-class="{{ section.settings.animation }}"
+          {% endif %} >
+
+{% if map_address != blank and section.settings.api_key != blank %}
+
+  {% comment %} API Map {% endcomment %}
+  <div id="map--{{ section.id }}" class="embed-container maps">
+      {% if section.settings.api_key != blank %}
+        <div class="map-section__container map" id="map-{{ section.id }}"
+        data-address="{{ map_address | strip_html }}"
+        data-zoom="{{ zoom_level }}"
+        data-pin="{{ section.settings.show_pin }}"
+        data-id="map-{{ section.id }}"
+        data-style="{{ section.settings.map_style }}"
+        data-api-key="{{ section.settings.api_key }}"
+        data-directions-address="{{ map_address | strip_html | handleize | replace: '_', '+' | replace: ' ', '+'}}">
+        </div>
+      {% endif %}
+  </div>
+
+{% elsif map_address != blank and section.settings.api_key == blank %}
+
+  {% comment %} Iframe Map {% endcomment %}
+  <div id="map--{{ section.id }}" class="embed-container maps">
+    <iframe width="100%"  height="{{ map_height }}" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://maps.google.com/maps?f=q&amp;source=embed&amp;hl=en&amp;geocode=&amp;q={% if map_address != blank %}{{ map_address | strip_html | replace: ' ', '+' }}{% else %}{{ shop.address.street }}{% endif %}&amp;z={{ zoom_level }}&amp;output=embed"></iframe>
+  </div>
+
+{% else %}
+
+  {% comment %} Image Map {% endcomment %}
+  <div id="map--{{ section.id }}" class="map__placeholder maps">
+    {% if map_image == blank %}
+      {{ 'lifestyle-1' | placeholder_svg_tag: 'placeholder-svg placeholder-svg--map' }}
+    {% else %}
+      {%
+        render 'image-element',
+        image: map_image,
+        alt: map_image.alt,
+        stretch_width: true,
+        focal_point: map_image.presentation.focal_point,
+      %}
+    {% endif %}
+  </div>
+
+{% endif %}
+</section>
+
+{% if section.settings.api_key %}
+{% comment %} JavaScript {% endcomment %}
+<script
+  type="application/json"
+  data-section-id="{{ section.id }}"
+  data-section-data >
+  {
+    "api_key": {{ section.settings.api_key | json }},
+    "directions_address": {{ map_address | strip_html | handleize | replace: '_', '+' | replace: ' ', '+' | json }},
+    "id": {{ section.id | prepend: 'map-' | json }},
+    "map_address": {{ map_address | json }},
+    "map_height": {{ map_height | json }},
+    "map_style": {{ map_style_json | strip | json }},
+    "show_pin": {{ section.settings.show_pin | json }},
+    "zoom_level": {{ zoom_level | json }}
+  }
+</script>
+<script data-theme-editor-load-script src="{{ 'z__jsMap.js' | asset_url }}"></script>
+{% endif %}
+
+
+{% schema %}
+{
+  "name": "Map",
+  "class": "map-section jsMap",
+  "settings": [
+    {
+      "type": "text",
+      "id": "map_address",
+      "label": "Address",
+      "info": "Google Maps will find the exact location"
+    },
+    {
+      "type": "range",
+      "id": "map_height",
+      "min": 300,
+      "max": 600,
+      "step": 10,
+      "unit": "px",
+      "label": "Map height",
+      "default": 400
+    },
+    {
+      "type": "range",
+      "id": "zoom_level",
+      "min": 1,
+      "max": 20,
+      "step": 1,
+      "unit": "x",
+      "label": "Map zoom level",
+      "default": 16
+    },
+    {
+      "type": "image_picker",
+      "id": "map_image",
+      "label": "Image",
+      "info": "Displayed when map isn't loaded"
+    },
+    {
+      "type": "header",
+      "content": "API key"
+    },
+    {
+      "type": "text",
+      "id": "api_key",
+      "label": "Google Maps API key",
+      "info": "You’ll need to [register a Google Maps API Key](https://help.shopify.com/manual/using-themes/troubleshooting/map-section-api-key) to display the map"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_pin",
+      "label": "Show pin",
+      "info": "Requires use of API key",
+      "default": true
+    },
+    {
+      "type": "select",
+      "id": "map_style",
+      "label": "Map color scheme",
+      "options": [
+        {
+          "value": "default",
+          "label": "Default"
+        },
+        {
+          "value": "aubergine",
+          "label": "Aubergine"
+        },
+        {
+          "value": "night",
+          "label": "Night"
+        },
+        {
+          "value": "retro",
+          "label": "Retro"
+        },
+        {
+          "value": "silver",
+          "label": "Silver"
+        }
+      ],
+      "default": "default",
+      "info": "Requires use of API key"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "select",
+      "id": "width",
+      "label": "Width",
+      "default": "wide",
+      "options": [
+        {
+          "value": "half",
+          "label": "Half"
+        },
+        {
+          "value": "standard",
+          "label": "Standard"
+        },
+        {
+          "value": "wide",
+          "label": "Wide"
+        }
+      ]
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Top spacing",
+      "min": 0,
+      "max": 80,
+      "default": 0,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Bottom spacing",
+      "min": 0,
+      "max": 80,
+      "default": 0,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "padding_left",
+      "label": "Left spacing",
+      "min": 0,
+      "max": 80,
+      "default": 0,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "padding_right",
+      "label": "Right spacing",
+      "default": 0,
+      "min": 0,
+      "max": 80,
+      "unit": "px"
+    },
+    {
+      "type": "select",
+      "id": "animation",
+      "label": "Animation",
+      "default": "none",
+      "options": [
+        {
+          "value": "none",
+          "label": "None"
+        },
+        {
+          "value": "fadeIn",
+          "label": "Fade in"
+        },
+        {
+          "value": "fadeInDown",
+          "label": "Fade in down"
+        },
+        {
+          "value": "fadeInLeft",
+          "label": "Fade in left"
+        },
+        {
+          "value": "fadeInRight",
+          "label": "Fade in right"
+        },
+        {
+          "value": "slideInLeft",
+          "label": "Slide in left"
+        },
+        {
+          "value": "slideInRight",
+          "label": "Slide in right"
+        },
+        {
+          "value": "zoomIn",
+          "label": "Zoom in"
+        }
+      ]
+    },
+    {
+      "type": "header",
+      "content": "Advanced",
+      "info": "[Learn more](https://help.outofthesandbox.com/hc/en-us/articles/360022329373)"
+    },
+    {
+      "type": "text",
+      "id": "css_class",
+      "label": "CSS Class"
+    },
+    {
+      "type": "textarea",
+      "id": "custom_css",
+      "label": "Custom CSS"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Map",
+      "category": "Store information"
+    }
+  ]
+}
+{% endschema %}

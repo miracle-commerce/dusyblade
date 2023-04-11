@@ -1,0 +1,30 @@
+{% if context == 'header' %}
+  {% assign search_results = settings.search_option %}
+{% else %}
+  {% assign search_results = block.settings.search_results %}
+{% endif %}
+
+{% if block.settings.title != blank %}
+  <h3 class="sidebar-block__heading">
+    {{ block.settings.title }}
+  </h3>
+{% endif %}
+<div data-autocomplete-{{ settings.enable_autocomplete }}>
+  <form class="sidebar-block__content sidebar-block__search search-form" action="{{ routes.search_url }}" data-search-type="{{ search_results }}">
+    <div class="search__fields">
+      {% if search_results == "product" %}
+        <input class="visually-hidden" type="text" name="type" value="product" />
+      {% elsif search_results == "article" %}
+        <input class="visually-hidden" type="text" name="type" value="article" />
+      {% endif %}
+      <label for="q" class="visually-hidden">{{ 'general.search.placeholder' | t }}</label>
+      <div class="field">
+        <div class="control has-icons-left is-relative">
+          <input class="input" type="text" name="q" placeholder="{{ 'general.search.placeholder' | t }}" value="{{ search.terms }}" x-webkit-speech autocapitalize="off" autocomplete="off" autocorrect="off" data-q/>
+          {% render 'icon', name: 'search' %}
+        </div>
+      </div>
+      <input type="submit" name="search" class="visually-hidden" value="" />
+    </div>
+  </form>
+</div>

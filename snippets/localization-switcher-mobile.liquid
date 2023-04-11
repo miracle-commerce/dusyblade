@@ -1,0 +1,106 @@
+{% comment %}
+Required values
+id: <string>
+currency_selector: <boolean>
+locale_selector: <boolean>
+show_currency: <boolean>
+Optional values
+additional_classes: <string>
+{% endcomment %}
+
+
+{%- form 'localization', class: 'selectors-form', id: id -%}
+<div class="localization {{ additional_classes }}">
+  <div class="selectors-form__wrap">
+    {%- if locale_selector -%}
+      <div class="selectors-form__item selectors-form__locale">
+        <h2 class="hidden" id="lang-heading-{{ id }}">
+          {{ 'general.language.dropdown_label' | t }}
+        </h2>
+
+        <input type="hidden" name="locale_code" value="{{ form.current_locale.iso_code }}" data-disclosure-input/>
+
+        <div class="disclosure disclosure--i18n disclosure-text-style-{{ settings.nav_font_style }}" data-disclosure-toggle data-disclosure-locale>
+          <select id="lang-list-{{ id }}" class="" data-disclosure-list>
+            {%- for locale in form.available_locales -%}
+              <option {% if locale.iso_code == form.current_locale.iso_code %}selected{% endif %} value="{{ locale.iso_code }}">
+                {{ locale.endonym_name }}
+              </option>
+            {%- endfor -%}
+          </select>
+          {% render 'icon', name: 'down-caret' %}
+        </div>
+      </div>
+    {%- endif -%}
+    {%- if settings.show_multiple_currencies and show_currency -%}
+      {% capture codes %},USD,EUR,GBP,CAD,ARS,AUD,ILS,BBD,BDT,BSD,BHD,BRL,BOB,BND,BGN,MMK,KYD,CLP,CNY,COP,CRC,HRK,CZK,DKK,DOP,XCD,EGP,XPF,FJD,GHS,GTQ,GYD,GEL,HKD,HUF,ISK,INR,IDR,NIS,JMD,JPY,JOD,KZT,KES,KWD,LVL,LTL,MXN,MYR,MUR,MDL,MAD,MNT,MZN,ANG,NZD,NGN,NOK,OMR,PKR,PYG,PEN,PHP,PLN,QAR,RON,RUB,SAR,RSD,SCR,SGD,SYP,ZAR,KRW,LKR,SEK,CHF,TWD,THB,TZS,TTD,TRY,TND,UAH,AED,UYU,VEB,VND,ZMK,{% endcapture %}
+      {%- assign supported_codes = settings.supported_currencies | split: ' ' -%}
+
+      <div class="selectors-form__item selectors-form__currency" value="{{ shop.currency }}" data-default-shop-currency="{{ shop.currency }}">
+        <h2 class="hidden" id="currency-heading-{{ id }}">
+          {{ 'general.currency.dropdown_label' | t }}
+        </h2>
+
+        <div class="disclosure disclosure--currency disclosure-text-style-{{ settings.nav_font_style }}" data-disclosure-toggle>
+          <select id="currency-list-{{ id }}" class="disclosure-list custom-currency" data-disclosure-list data-default-shop-currency="{{ shop.currency }}" data-currency-converter>
+            {%- for code in supported_codes -%}
+              <option {% if code == shop.currency %}selected{% endif %} value="{{ code }}">
+                {{ code }}
+              </option>
+            {%- endfor -%}
+          </select>
+          {% render 'icon', name: 'down-caret' %}
+        </div>
+      </div>
+    {%- elsif currency_selector -%}
+      <div
+        class="
+          selectors-form__item
+          selectors-form__country
+        "
+      >
+        <h2
+          class="hidden"
+          id="country-heading-{{ id }}"
+        >
+          {{ 'general.country.dropdown_label' | t }}
+        </h2>
+
+        <input
+          type="hidden"
+          name="country_code"
+          value="{{ localization.country.iso_code }}"
+          data-country-selector
+          data-disclosure-input
+        />
+
+        <div
+          class="
+            disclosure
+            disclosure--country
+          "
+          data-disclosure-toggle
+          data-disclosure-country
+        >
+          <select
+            id="country-list-{{ id }}"
+            class="disclosure-list"
+            data-disclosure-list
+          >
+            {%- for country in localization.available_countries -%}
+              <option
+                {% if country.iso_code == localization.country.iso_code %}selected{% endif %}
+                value="{{ country.iso_code }}"
+              >
+                {{ country.name }} ({{ country.currency.iso_code }}{% if country.currency.symbol %} {{ country.currency.symbol }}{%- endif -%})
+              </option>
+            {%- endfor -%}
+          </select>
+          {% render 'icon', name: 'down-caret' %}
+        </div>
+      </div>
+    {%- endif -%}
+  </div>
+</div>
+{%- endform -%}
+

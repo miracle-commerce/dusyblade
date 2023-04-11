@@ -1,0 +1,262 @@
+{
+  "current": {
+    "header_layout": "vertical",
+    "image_loading_style": "blur-up",
+    "logo_mobile": "shopify:\/\/shop_images\/D74FBE95-BB37-446C-8451-64195E013C69.jpg",
+    "show_locale_selector": false,
+    "show_currency_selector": false,
+    "dropdown_style": "vertical",
+    "link_color": "#333333",
+    "link_hover_color": "#000000",
+    "header_background": "#000000",
+    "header_link_hover_color": "#FFF",
+    "header_cart_badge_color": "#333333",
+    "dropdown_link_hover_color": "#333333",
+    "footer_background": "#000000",
+    "sale_color": "#000000",
+    "banner_sale": "#000000",
+    "regular__font": "libre_franklin_n4",
+    "regular_font_size": 16,
+    "logo__font": "libre_franklin_n4",
+    "nav__font": "libre_franklin_n4",
+    "button__font": "libre_franklin_n4",
+    "heading__font": "libre_franklin_n6",
+    "heading_size": 36,
+    "preheading_font": "libre_franklin_n4",
+    "preheading_size": 24,
+    "subheading_font": "libre_franklin_n4",
+    "banner_heading__font": "libre_franklin_n4",
+    "banner_text__font": "libre_franklin_n4",
+    "show_secondary_image": true,
+    "thumbnail_hover_enabled": false,
+    "limit_quantity": true,
+    "display_inventory_left": true,
+    "enable_quickshop": false,
+    "cart_action": "drawer",
+    "sections": {
+      "announcement-bar": {
+        "type": "announcement-bar",
+        "settings": {
+          "icon_label": "",
+          "text": "<p>TheDustyBlade is a Star Seller!<\/p>",
+          "alignment": "center",
+          "size": "regular",
+          "button_label": "",
+          "link": "",
+          "button_style": "button--primary",
+          "background": "#000000",
+          "text_color": "#ffffff",
+          "width": "wide",
+          "homepage_only": false,
+          "enable_sticky": false,
+          "show_close_icon": true,
+          "css_class": "",
+          "custom_css": ""
+        }
+      },
+      "header__top-bar": {
+        "type": "header__top-bar",
+        "blocks": {
+          "header__top-bar-0": {
+            "type": "text",
+            "settings": {
+              "text": "123 Main Street, Pleasantville USA"
+            }
+          },
+          "header__top-bar-1": {
+            "type": "social_media",
+            "settings": {
+            }
+          }
+        },
+        "block_order": [
+          "header__top-bar-0",
+          "header__top-bar-1"
+        ],
+        "settings": {
+          "show_top_bar": true,
+          "font": "open_sans_n4",
+          "font_style": "none",
+          "font_size": 14,
+          "letter_spacing": 0,
+          "show_locale_selector": true,
+          "show_currency_selector": true,
+          "background": "rgba(0,0,0,0)",
+          "link_color": "rgba(0,0,0,0)",
+          "link_hover_color": "rgba(0,0,0,0)",
+          "text_color": "rgba(0,0,0,0)",
+          "width": "standard",
+          "css_class": "",
+          "custom_css": ""
+        }
+      },
+      "header-classic": {
+        "type": "header-classic",
+        "settings": {
+          "logo": "shopify:\/\/shop_images\/D74FBE95-BB37-446C-8451-64195E013C69.jpg",
+          "logo_width": 200,
+          "main_linklist": "main-menu",
+          "menu_alignment": "start",
+          "dropdown_click": false,
+          "display_search": true,
+          "icon_style": "icons",
+          "enable_overlay": false,
+          "show_text_shadow": false,
+          "overlay_link_color": "rgba(0,0,0,0)",
+          "overlay_link_hover_color": "rgba(0,0,0,0)",
+          "overlay_background": "rgba(0,0,0,0)",
+          "overlay_background_opacity": 0,
+          "overlay_logo_width": 80,
+          "enable_sticky": false,
+          "sticky_background_opacity": 50,
+          "scroll_logo_width": 80,
+          "width": "standard",
+          "vertical_alignment": "center",
+          "css_class": "",
+          "custom_css": ""
+        }
+      },
+      "mega-menu-1": {
+        "type": "mega-menu-1",
+        "settings": {
+          "parent_link": "catalog",
+          "enable_mega_menu_border": false,
+          "mega_menu_background_color": "#f6f6f6",
+          "mega_menu_text_color": "#404040",
+          "show_mega_bottom_bar": true,
+          "mega_bottom_bar_icon": "",
+          "mega_bottom_bar_text": "Add your deal, information or promotional text",
+          "mega_bottom_bar_link": "",
+          "size": "regular",
+          "bottom_banner_bg": "#007ace",
+          "bottom_banner_text": "#efefef",
+          "css_class": "",
+          "custom_css": ""
+        }
+      },
+      "footer__icon-bar": {
+        "type": "footer__icon-bar",
+        "settings": {
+          "show_icon_bar": true,
+          "alignment": "center",
+          "icon_position": "row",
+          "size": "medium",
+          "background": "#8b8b8b",
+          "link_color": "#ffffff",
+          "link_hover_color": "#000000",
+          "text_color": "#ffffff",
+          "width": "standard",
+          "css_class": "",
+          "custom_css": ""
+        }
+      },
+      "footer-classic": {
+        "type": "footer-classic",
+        "blocks": {
+          "footer-classic-0": {
+            "type": "logo",
+            "settings": {
+              "logo": "shopify:\/\/shop_images\/D74FBE95-BB37-446C-8451-64195E013C69.jpg",
+              "size": "small",
+              "text": "",
+              "social_icons_footer": false
+            }
+          },
+          "footer-classic-1": {
+            "type": "link_list",
+            "settings": {
+              "menu": "main-menu",
+              "social_icons_footer": false
+            }
+          }
+        },
+        "block_order": [
+          "footer-classic-0",
+          "footer-classic-1"
+        ],
+        "settings": {
+          "copyright_text": "",
+          "display_designed_by": false,
+          "display_shopify": false,
+          "display_payment_methods": true,
+          "show_locale_selector": false,
+          "show_currency_selector": false,
+          "css_class": "",
+          "custom_css": ""
+        }
+      },
+      "header-vertical": {
+        "type": "header-vertical",
+        "blocks": {
+          "header-vertical-0": {
+            "type": "logo",
+            "settings": {
+              "logo": "shopify:\/\/shop_images\/D74FBE95-BB37-446C-8451-64195E013C69.jpg",
+              "logo_width": 100
+            }
+          },
+          "header-vertical-1": {
+            "type": "icons",
+            "settings": {
+              "icon_style": "icons_text",
+              "display_search": true
+            }
+          },
+          "header-vertical-2": {
+            "type": "search",
+            "settings": {
+            }
+          },
+          "header-vertical-3": {
+            "type": "navigation",
+            "settings": {
+              "main_linklist": "main-menu",
+              "nav_background": "rgba(0,0,0,0)",
+              "nav_link_color": "rgba(0,0,0,0)",
+              "nav_link_hover_color": "rgba(0,0,0,0)"
+            }
+          },
+          "dcf44647-a192-42b7-94ad-d72629b94b3f": {
+            "type": "text",
+            "disabled": true,
+            "settings": {
+              "title": "Smooth shipping",
+              "text": "<p>Has a history of shipping on time with tracking.<\/p>"
+            }
+          },
+          "header-vertical-4": {
+            "type": "payment_icons",
+            "settings": {
+            }
+          },
+          "header-vertical-5": {
+            "type": "copyright",
+            "settings": {
+              "copyright_text": "",
+              "display_designed_by": false,
+              "display_shopify": false
+            }
+          }
+        },
+        "block_order": [
+          "header-vertical-0",
+          "header-vertical-1",
+          "header-vertical-2",
+          "header-vertical-3",
+          "dcf44647-a192-42b7-94ad-d72629b94b3f",
+          "header-vertical-4",
+          "header-vertical-5"
+        ],
+        "settings": {
+          "alignment": "left",
+          "dropdown_click": false,
+          "css_class": "",
+          "custom_css": ""
+        }
+      }
+    },
+    "content_for_index": [
+
+    ]
+  }
+}

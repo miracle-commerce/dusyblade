@@ -1,0 +1,55 @@
+<div class="product-thumbnail">
+  {% if settings.display_vendor %}
+    <span class="product-thumbnail__vendor">{{ product.vendor }}</span>
+  {% endif %}
+
+  {% if hover_enabled %}
+    <span class="product-thumbnail__title">{{ product.title }}</span>
+  {% else %}
+    <a href="{{ product.url | within: collection }}" class="product-thumbnail__title">{{ product.title }}</a>
+  {% endif %}
+
+  {% if collection_handles contains 'coming-soon' %}
+    {% if settings.stickers_enabled == false %}
+      {{ 'collections.general.coming_soon' | t }}
+    {% endif %}
+  {% elsif product.available == false %}
+    <span class="product-thumbnail__price">
+      {{ 'collections.general.sold_out' | t }}
+    </span>
+  {% else %}
+    <span class="product-thumbnail__price price {% if product.compare_at_price_max > product.price %}sale{% endif %}">
+      {% if product.price_varies and product.price_min > 0 %}
+        <small><em>{{ 'products.general.from' | t }}</em></small>
+      {% endif %}
+      {% if product.price_min > 0 %}
+        <span class="money">
+          {%
+            render 'price-element',
+            price: product.price_min
+          %}
+        </span>
+      {% else %}
+        {{ settings.free_price_text }}
+      {% endif %}
+      {% if product.compare_at_price > product.price %}
+        <span class="product-thumbnail__was-price compare-at-price">
+          <span class="money">
+            {%
+              render 'price-element',
+              price: product.compare_at_price,
+            %}
+          </span>
+        </span>
+      {% endif %}
+    </span>
+    {% if settings.select_first_available_variant %}
+      {%- assign variant_for_unit_price = product.variants | sort: 'price' | first -%}
+      {%
+        render 'unit-price',
+        item: variant_for_unit_price,
+        class: 'product-thumbnail__unit-price'
+      %}
+    {% endif %}
+  {% endif %}
+</div>

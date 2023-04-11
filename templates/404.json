@@ -1,0 +1,18 @@
+{
+  "sections": {
+    "banner": {
+      "type": "banner",
+      "settings": {
+      }
+    },
+    "main": {
+      "type": "404__main",
+      "settings": {
+      }
+    }
+  },
+  "order": [
+    "banner",
+    "main"
+  ]
+}

@@ -1,0 +1,103 @@
+{% if settings.breadcrumb_separator == 'caret' %}
+  {% assign breadcrumb_separator = 'right-caret' %}
+{% elsif settings.breadcrumb_separator == 'arrow' %}
+  {% assign breadcrumb_separator = 'right-arrow' %}
+{% elsif settings.breadcrumb_separator == 'bullet' %}
+  {% assign breadcrumb_separator = 'bullet' %}
+{% elsif settings.breadcrumb_separator == 'slash' %}
+  {% assign breadcrumb_separator = 'slash' %}
+{% endif %}
+
+<nav class="breadcrumb
+            is-{{ settings.breadcrumb_size }}
+            is-{{ settings.breadcrumb_capitalization }}"
+            aria-label="breadcrumbs">
+  <ul>
+    <li>
+      <a href="{{ routes.root_url }}" title="{{ shop.name | escape }}">
+        {{ 'general.breadcrumbs.home' | t }}
+      </a>
+    </li>
+    {% if template.name == 'product' %}
+      <li>
+        <span class="breadcrumb-separator">
+          {% render 'icon', name: breadcrumb_separator %}
+        </span>
+        <a href="{{ routes.collections_url }}/{% if collection.handle != blank %}{{ collection.handle }}{% else %}all{% endif %}" title="{{ collection.title | escape }}">
+          {% unless collection.title %} All {% else %} {{ collection.title }} {% endunless %}
+        </a>
+      </li>
+      {% if current_tags %}
+        {% for tag in current_tags %}
+          <li>
+            <span class="breadcrumb-separator">
+              {% render 'icon', name: breadcrumb_separator %}
+            </span>
+            <a href="{{ routes.collections_url }}/{% if collection.handle != blank %}{{ collection.handle }}{% else %}all{% endif %} {{ tag | handleize }}" title="{{ tag | escape }}">
+              {{ tag }}
+            </a>
+          </li>
+        {% endfor %}
+      {% endif %}
+    {% elsif template.name == 'collection' %}
+      <li>
+        <span class="breadcrumb-separator">
+          {% render 'icon', name: breadcrumb_separator %}
+        </span>
+        <a href="{{ routes.collections_url }}/{% if collection.handle != blank %}{{ collection.handle }}{% else %}all{% endif %}" title="{{ collection.title | escape }}">
+          {% unless collection.title %} {{ 'collections.general.all' | t }} {% else %} {{ collection.title }} {% endunless %}
+        </a>
+      </li>
+    {% elsif template.name == 'search' %}
+      <li>
+        <span class="breadcrumb-separator">
+          {% render 'icon', name: breadcrumb_separator %}
+        </span>
+        <a href="{{ routes.search_url }}" title="{{ 'general.search.title' | t | escape }}">
+          {{ 'general.search.title' | t }}
+        </a>
+      </li>
+    {% elsif context == 'article' %}
+      <li>
+        <span class="breadcrumb-separator">
+          {% render 'icon', name: breadcrumb_separator %}
+        </span>
+        <a href="{{ blog.url }}" title="{{ blog.title | escape }}">
+          {{ blog.title }}
+        </a>
+      </li>
+    {% endif %}
+    {% if product.handle != blank %}
+      <li>
+        <span class="breadcrumb-separator">
+          {% render 'icon', name: breadcrumb_separator %}
+        </span>
+        {{ product.title }}
+      </li>
+    {% endif %}
+    {% if template.name == 'collection' %}
+      {% paginate collection.products by section.settings.pagination_limit %}
+        {% if paginate.pages != 0 %}
+          <li class="breadcrumb__page-count js-breadcrumb-text is-hidden">
+            <span class="breadcrumb-separator">
+              {% render 'icon', name: breadcrumb_separator %}
+            </span>
+            <span data-breadcrumb-text></span>
+          </li>
+        {% endif %}
+      {% endpaginate %}
+    {% endif %}
+    {% if template.name == 'search' %}
+      {% paginate search.results by section.settings.pagination_limit %}
+        {% if paginate.pages != 0 %}
+          <li class="breadcrumb__page-count js-breadcrumb-text is-hidden">
+            <span class="breadcrumb-separator">
+              {% render 'icon', name: breadcrumb_separator %}
+            </span>
+            <span data-breadcrumb-text></span>
+          </li>
+        {% endif %}
+      {% endpaginate %}
+    {% endif %}
+  </ul>
+</nav>

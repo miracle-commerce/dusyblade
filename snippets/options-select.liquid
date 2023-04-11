@@ -1,0 +1,48 @@
+{% comment %}
+  Display variant options for a product
+
+  @param selected_variant
+{% endcomment %}
+
+<div class="selector-wrapper">
+  <label
+    for="data-variant-option-{{ option_index }}"
+    data-variant-option-name="{{ option.name }}"
+    data-variant-option-choose-name="{{ option.name }}"
+  >
+    {{ option.name }}
+  </label>
+  <span class="select" data-dropdown-form-style="">
+    <select
+      class="single-option-selector"
+      id="data-variant-option-{{ option_index }}"
+      data-variant-option
+      data-variant-option-index="{{ option_index }}"
+      data-variant-option-chosen-value="{% if selected_variant %}{{ option.selected_value }}{% else %}false{% endif %}"
+    >
+      {% unless selected_variant %}
+        <option
+          value="not-selected"
+          disabled
+          selected
+          data-variant-option-value-wrapper
+          data-variant-option-value
+          data-variant-option-value-index="{{ option_index }}"
+        >
+          {{ 'product.variants.choose_option' | t: option: option.name }}
+        </option>
+      {% endunless %}
+      {% for value in option.values %}
+        <option
+          value="{{ value | escape }}"
+          {% if selected_variant and option.selected_value == value %}selected{% endif %}
+          data-variant-option-value-wrapper
+          data-variant-option-value
+          data-variant-option-value-index="{{ option_index }}"
+        >
+          {{ value }}
+        </option>
+      {% endfor %}
+    </select>
+  </span>
+</div>

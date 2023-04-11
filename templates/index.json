@@ -1,0 +1,401 @@
+{
+  "sections": {
+    "b932f221-a430-44c8-b051-d59ca6595078": {
+      "type": "index__slideshow-classic",
+      "blocks": {
+        "template--18042144162082__b932f221-a430-44c8-b051-d59ca6595078-16778562088349f21b-0": {
+          "type": "image",
+          "settings": {
+            "link": "",
+            "image": "shopify:\/\/shop_images\/desktop-hero-banner-1-1.jpg",
+            "mobile_image": "shopify:\/\/shop_images\/mobile-banner-1.jpg",
+            "pretext": "",
+            "title": "",
+            "subtitle": "",
+            "pretext_color": "#000000",
+            "heading_color": "#000000",
+            "subheading_color": "#000000",
+            "text_alignment": "center",
+            "text_horizontal_position": "center",
+            "background_color": "#ffffff",
+            "background_opacity": 77,
+            "border_color": "#ffffff",
+            "border_width": 0,
+            "text_width": 40,
+            "button_1": "",
+            "button_1_link": "",
+            "button_1_style": "button--secondary",
+            "button_2": "",
+            "button_2_link": "",
+            "button_2_style": "button--secondary",
+            "pretext_color_mobile": "rgba(0,0,0,0)",
+            "heading_color_mobile": "rgba(0,0,0,0)",
+            "subheading_color_mobile": "rgba(0,0,0,0)"
+          }
+        },
+        "ed373d5c-f44e-4b78-bbc8-9d0fb4d82ba3": {
+          "type": "image",
+          "settings": {
+            "link": "",
+            "image": "shopify:\/\/shop_images\/desktop-hero-banner-2.jpg",
+            "mobile_image": "shopify:\/\/shop_images\/mobile-banner-2.jpg",
+            "pretext": "",
+            "title": "",
+            "subtitle": "",
+            "pretext_color": "#000000",
+            "heading_color": "#000000",
+            "subheading_color": "#000000",
+            "text_alignment": "center",
+            "text_horizontal_position": "center",
+            "background_color": "#ffffff",
+            "background_opacity": 77,
+            "border_color": "#ffffff",
+            "border_width": 0,
+            "text_width": 40,
+            "button_1": "",
+            "button_1_link": "",
+            "button_1_style": "button--secondary",
+            "button_2": "",
+            "button_2_link": "",
+            "button_2_style": "button--secondary",
+            "pretext_color_mobile": "rgba(0,0,0,0)",
+            "heading_color_mobile": "rgba(0,0,0,0)",
+            "subheading_color_mobile": "rgba(0,0,0,0)"
+          }
+        },
+        "c41b055d-abe5-4ad1-8e5e-8273ef6049f3": {
+          "type": "image",
+          "settings": {
+            "link": "",
+            "image": "shopify:\/\/shop_images\/desktop-hero-banner-3.jpg",
+            "mobile_image": "shopify:\/\/shop_images\/mobile-banner-3.jpg",
+            "pretext": "",
+            "title": "",
+            "subtitle": "",
+            "pretext_color": "#000000",
+            "heading_color": "#000000",
+            "subheading_color": "#000000",
+            "text_alignment": "center",
+            "text_horizontal_position": "center",
+            "background_color": "#ffffff",
+            "background_opacity": 77,
+            "border_color": "#ffffff",
+            "border_width": 0,
+            "text_width": 40,
+            "button_1": "",
+            "button_1_link": "",
+            "button_1_style": "button--secondary",
+            "button_2": "",
+            "button_2_link": "",
+            "button_2_style": "button--secondary",
+            "pretext_color_mobile": "rgba(0,0,0,0)",
+            "heading_color_mobile": "rgba(0,0,0,0)",
+            "subheading_color_mobile": "rgba(0,0,0,0)"
+          }
+        },
+        "b6376174-382f-455c-a7bd-04b453070a0c": {
+          "type": "image",
+          "settings": {
+            "link": "",
+            "image": "shopify:\/\/shop_images\/desktop-hero-banner-4.jpg",
+            "mobile_image": "shopify:\/\/shop_images\/mobile-banner-4_b7487d3d-508e-42f0-8ea2-6ec189f61872.jpg",
+            "pretext": "",
+            "title": "",
+            "subtitle": "",
+            "pretext_color": "#000000",
+            "heading_color": "#000000",
+            "subheading_color": "#000000",
+            "text_alignment": "center",
+            "text_horizontal_position": "center",
+            "background_color": "#ffffff",
+            "background_opacity": 77,
+            "border_color": "#ffffff",
+            "border_width": 0,
+            "text_width": 40,
+            "button_1": "",
+            "button_1_link": "",
+            "button_1_style": "button--secondary",
+            "button_2": "",
+            "button_2_link": "",
+            "button_2_style": "button--secondary",
+            "pretext_color_mobile": "rgba(0,0,0,0)",
+            "heading_color_mobile": "rgba(0,0,0,0)",
+            "subheading_color_mobile": "rgba(0,0,0,0)"
+          }
+        },
+        "4a7e9e1f-12e0-461c-afe3-968e82a3acd9": {
+          "type": "image",
+          "settings": {
+            "link": "",
+            "image": "shopify:\/\/shop_images\/desktop-hero-banner-5.jpg",
+            "mobile_image": "shopify:\/\/shop_images\/mobile-banner-5.jpg",
+            "pretext": "",
+            "title": "",
+            "subtitle": "",
+            "pretext_color": "#000000",
+            "heading_color": "#000000",
+            "subheading_color": "#000000",
+            "text_alignment": "center",
+            "text_horizontal_position": "center",
+            "background_color": "#ffffff",
+            "background_opacity": 77,
+            "border_color": "#ffffff",
+            "border_width": 0,
+            "text_width": 40,
+            "button_1": "",
+            "button_1_link": "",
+            "button_1_style": "button--secondary",
+            "button_2": "",
+            "button_2_link": "",
+            "button_2_style": "button--secondary",
+            "pretext_color_mobile": "rgba(0,0,0,0)",
+            "heading_color_mobile": "rgba(0,0,0,0)",
+            "subheading_color_mobile": "rgba(0,0,0,0)"
+          }
+        }
+      },
+      "block_order": [
+        "template--18042144162082__b932f221-a430-44c8-b051-d59ca6595078-16778562088349f21b-0",
+        "ed373d5c-f44e-4b78-bbc8-9d0fb4d82ba3",
+        "c41b055d-abe5-4ad1-8e5e-8273ef6049f3",
+        "b6376174-382f-455c-a7bd-04b453070a0c",
+        "4a7e9e1f-12e0-461c-afe3-968e82a3acd9"
+      ],
+      "settings": {
+        "image_transition": "slide",
+        "image_slideshow_speed": 8,
+        "show_arrows": true,
+        "show_nav_buttons": true,
+        "mobile_text_below_image": true,
+        "width": "wide",
+        "padding_top": 0,
+        "padding_bottom": 0,
+        "animation": "fadeIn",
+        "css_class": "",
+        "custom_css": ""
+      }
+    },
+    "heading": {
+      "type": "index__heading",
+      "settings": {
+        "preheading": "",
+        "title": "It’s all in the wood",
+        "subheading": "<p>We build our products with wood procured from local Wisconsin sawmills. Much care and attention is given to providing us with the best pine boards possible that meet our requirements of clarity and thickness.<\/p>",
+        "preheading_color": "rgba(0,0,0,0)",
+        "heading_color": "rgba(0,0,0,0)",
+        "subheading_color": "rgba(0,0,0,0)",
+        "background": "rgba(0,0,0,0)",
+        "gradient": "rgba(0,0,0,0)",
+        "gradient_rotation": 0,
+        "heading_alignment": "center",
+        "vertical_spacing": "small",
+        "width": "standard",
+        "padding_top": 40,
+        "padding_bottom": 20,
+        "padding_left": 0,
+        "padding_right": 0,
+        "animation": "none",
+        "css_class": "",
+        "custom_css": ""
+      }
+    },
+    "9c5fb76c-5684-4a5c-8377-312b6a348ca7": {
+      "type": "index__featured-collection",
+      "settings": {
+        "title": "",
+        "collection": "shop",
+        "products_per": 4,
+        "mobile_products_per_row": "1",
+        "products_limit": 50,
+        "align_height": true,
+        "collection_height": 200,
+        "collection_style": "grid",
+        "width": "standard",
+        "show_gutter": true,
+        "padding_top": 0,
+        "padding_bottom": 0,
+        "animation": "none",
+        "css_class": "",
+        "custom_css": ""
+      }
+    },
+    "image_with_text": {
+      "type": "index__image-with-text",
+      "blocks": {
+        "1557099063267-1": {
+          "type": "image",
+          "settings": {
+            "image": "shopify:\/\/shop_images\/Ron.jpg",
+            "image_link": ""
+          }
+        },
+        "1557099063267-2": {
+          "type": "text",
+          "settings": {
+            "title": "About Us",
+            "heading_size": "large",
+            "text": "<p>Born and raised in Wisconsin. My father was a home builder and contractor . I spend a lot of time riding in the truck and working with dad from an early age. I know the feeling of pride that comes from producing a quality product and taking great care of customers.<br\/>I’ve been building raised garden planters locally for 4 years. The Dusty Blade was created in March of 2022 when I began building items to sell at a local resale shop, as well as custom items by request. Ultimately, I wanted to create an item that could be shipped beyond our local market. While talking with a customer the idea of the laundry basket holder appeared.<br\/>Our product line consists of 2 standard models, with 2 variations, add-ons and customization offerings.<br\/>Service and support are at the core of our shop. I find this work extremely gratifying. The positive and kind feedback received by our customers fuels our excitement!<br\/>Enjoy your tour of our shop and thank you very much for visiting.<\/p><p>Ron & Michelle<\/p>",
+            "button_label": "",
+            "link": "",
+            "button_style": "button--primary",
+            "background": "#ffffff",
+            "text_color": "#000000",
+            "alignment": "left",
+            "vertical_position": "center"
+          }
+        }
+      },
+      "block_order": [
+        "1557099063267-1",
+        "1557099063267-2"
+      ],
+      "settings": {
+        "width": "standard",
+        "show_gutter": false,
+        "padding_top": 60,
+        "padding_bottom": 60,
+        "animation": "none",
+        "css_class": "",
+        "custom_css": ""
+      }
+    },
+    "17a7f950-2622-4819-8e97-443eccd35f20": {
+      "type": "index__icon-with-text-column",
+      "blocks": {
+        "template--18042144162082__17a7f950-2622-4819-8e97-443eccd35f20-167786538346b174a8-0": {
+          "type": "logo_image",
+          "settings": {
+            "icon_label": "truck",
+            "title": "Smooth shipping",
+            "text": "<p>Has a history of shipping on time with tracking.<\/p>",
+            "button_label": "",
+            "link": ""
+          }
+        },
+        "template--18042144162082__17a7f950-2622-4819-8e97-443eccd35f20-167786538346b174a8-1": {
+          "type": "logo_image",
+          "settings": {
+            "icon_label": "email",
+            "title": "Speedy replies",
+            "text": "<p>Has a history of replying to messages quickly.<\/p>",
+            "button_label": "",
+            "link": ""
+          }
+        },
+        "template--18042144162082__17a7f950-2622-4819-8e97-443eccd35f20-167786538346b174a8-2": {
+          "type": "logo_image",
+          "settings": {
+            "icon_label": "fire",
+            "title": "Rave reviews",
+            "text": "<p>Average review rating is 4.8 or higher<\/p>",
+            "button_label": "",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "template--18042144162082__17a7f950-2622-4819-8e97-443eccd35f20-167786538346b174a8-0",
+        "template--18042144162082__17a7f950-2622-4819-8e97-443eccd35f20-167786538346b174a8-1",
+        "template--18042144162082__17a7f950-2622-4819-8e97-443eccd35f20-167786538346b174a8-2"
+      ],
+      "settings": {
+        "icons_per_row": 3,
+        "icon_size": "large",
+        "align_text": "center",
+        "button_style": "button--primary",
+        "icon_color": "rgba(0,0,0,0)",
+        "text_color": "rgba(0,0,0,0)",
+        "background": "#cccccc",
+        "gradient": "rgba(0,0,0,0)",
+        "gradient_rotation": 0,
+        "width": "wide",
+        "show_gutter": true,
+        "padding_top": 20,
+        "padding_bottom": 20,
+        "padding_left": 20,
+        "padding_right": 20,
+        "animation": "none",
+        "css_class": "",
+        "custom_css": ""
+      }
+    },
+    "16812442808490fad9": {
+      "type": "apps",
+      "blocks": {
+        "6c9b66d7-448c-4887-a774-a1447bc96d63": {
+          "type": "shopify:\/\/apps\/reputon-etsy-reviews\/blocks\/carousel-widget-block\/8df530b9-db50-44f9-a43b-c93c6bac56a9",
+          "settings": {
+            "themeId": "light",
+            "autoscroll": true,
+            "showRating": true,
+            "showProductPicture": false
+          }
+        }
+      },
+      "block_order": [
+        "6c9b66d7-448c-4887-a774-a1447bc96d63"
+      ],
+      "settings": {
+        "width": "standard",
+        "padding_top": 20,
+        "padding_bottom": 20,
+        "css_class": "",
+        "custom_css": ""
+      }
+    },
+    "e2350054-1f14-4305-9e2a-a6f186b63c55": {
+      "type": "index__contact-form",
+      "blocks": {
+        "template--18042144162082__e2350054-1f14-4305-9e2a-a6f186b63c55-16778658982d97664d-0": {
+          "type": "textfield",
+          "settings": {
+            "label": "Name",
+            "required": true
+          }
+        },
+        "template--18042144162082__e2350054-1f14-4305-9e2a-a6f186b63c55-16778658982d97664d-1": {
+          "type": "email",
+          "settings": {
+            "label": "Email"
+          }
+        },
+        "template--18042144162082__e2350054-1f14-4305-9e2a-a6f186b63c55-16778658982d97664d-2": {
+          "type": "textarea",
+          "settings": {
+            "label": "Message",
+            "required": false
+          }
+        }
+      },
+      "block_order": [
+        "template--18042144162082__e2350054-1f14-4305-9e2a-a6f186b63c55-16778658982d97664d-0",
+        "template--18042144162082__e2350054-1f14-4305-9e2a-a6f186b63c55-16778658982d97664d-1",
+        "template--18042144162082__e2350054-1f14-4305-9e2a-a6f186b63c55-16778658982d97664d-2"
+      ],
+      "settings": {
+        "title": "Get in touch today",
+        "content_text": "<p>Customize your contact form to suit your business! Add custom fields like a dropdown menu, checkbox, text fields and more, so that you can gather pertinent info from shoppers right from the get-go, to help answer their inquiries more effectively.<\/p>",
+        "social_enable": false,
+        "text_alignment": "left",
+        "background": "#e5e5e5",
+        "text_color": "#000000",
+        "form_position": "right",
+        "width": "standard",
+        "padding_top": 40,
+        "padding_bottom": 40,
+        "animation": "none",
+        "css_class": "",
+        "custom_css": ""
+      }
+    }
+  },
+  "order": [
+    "b932f221-a430-44c8-b051-d59ca6595078",
+    "heading",
+    "9c5fb76c-5684-4a5c-8377-312b6a348ca7",
+    "image_with_text",
+    "17a7f950-2622-4819-8e97-443eccd35f20",
+    "16812442808490fad9",
+    "e2350054-1f14-4305-9e2a-a6f186b63c55"
+  ]
+}

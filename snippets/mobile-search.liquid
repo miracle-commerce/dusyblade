@@ -1,0 +1,22 @@
+<div class="mobile-search is-hidden-large" data-autocomplete-{{ settings.enable_autocomplete }}>
+  <form class="search-form search-popup__form" action="{{ routes.search_url }}">
+    <div class="search__fields">
+      <input type="hidden" name="type" value="{{ settings.search_option }}" />
+      <label for="q" class="visually-hidden">{{ settings.search_placeholder }}</label>
+      <div class="field">
+        <div class="control has-icons-left has-icons-right is-relative">
+          <input class="input" type="text" name="q" placeholder="{{ settings.search_placeholder }}" value="{{ search.terms }}" x-webkit-speech autocapitalize="off" autocomplete="off" autocorrect="off" data-q/>
+          {% render 'icon',
+                  name: 'search',
+                  icon_class: 'is-left submit-search'
+          %}
+          {% render 'icon',
+                  name: 'x',
+                  icon_class: 'is-right close-search'
+          %}
+        </div>
+      </div>
+      <input type="submit" name="search" class="visually-hidden" value="" />
+    </div>
+  </form>
+</div>

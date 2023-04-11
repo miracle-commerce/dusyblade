@@ -1,0 +1,178 @@
+{% comment %}
+----------------
+Optional values
+product_recommendations: <boolean>
+{% endcomment %}
+
+{% comment %}Check for related products and increase limit by one (to offset the currently selected product that is removed from the product loop){% endcomment %}
+{% if related_products == true %}
+  {%- assign limit = limit | plus: 0 -%}
+  {%- assign loop_limit = limit | plus: 1 -%}
+  {%- assign hover_enabled = block.settings.show_related_products_title_on_hover -%}
+{% else %}
+  {%- assign limit = limit | plus: 0 -%}
+  {%- assign loop_limit = limit | plus: 0 -%}
+  {%- assign hover_enabled = settings.thumbnail_hover_enabled -%}
+{% endif %}
+
+{% if per_slide != blank %}
+  {%- assign visible_products = per_slide -%}
+{% else %}
+  {% if products_per != blank %}
+    {%- assign visible_products = products_per | plus: 0 -%}
+  {% else %}
+    {%- assign visible_products = products_per | plus: 0 -%}
+  {% endif %}
+{% endif %}
+
+{% if template.name == 'product' %}
+  {% if limit <= visible_products %}
+    {%- assign products_length = limit -%}
+  {% else %}
+    {%- assign products_length = products.size | minus: 1 -%}
+  {% endif %}
+{% elsif featured_collection %}
+  {%- assign products_length = collections[featured_collection].products.size -%}
+{% elsif section.settings.show_product_recommendations %}
+  {%- assign products_length = limit -%}
+{% else %}
+  {%- assign products_length = products.size -%}
+{% endif %}
+
+{% if product_recommendations == true %}
+  {%- assign hover_enabled = settings.thumbnail_hover_enabled -%}
+{% endif %}
+
+<div class="slider-gallery
+    {% if show_gutter == false %}has-no-side-gutter{% endif %}
+    products-slider products-length-{{ products_length }}
+    transparentBackground--{{ settings.slideshow_button_style }}"
+    data-products-per-slide="{{ visible_products }}"
+    data-products-limit="{{ limit }}"
+    data-products-available="{{ products_length }}">
+  {% for product in products limit: loop_limit %}
+    {%- assign collection_handles = product.collections | map: 'handle' -%}
+
+    {% if product.id != skip_product.id %}
+      {%- assign feature_image = product.featured_image -%}
+      <div class="gallery-cell thumbnail visible-{{ visible_products }}
+          {%
+            render 'column-width',
+            value: per_slide
+          %}
+          medium-down--one-half column has-thumbnail-sticker
+          {% if product.media[1] != blank and settings.show_secondary_image == true %}has-secondary-image-swap{% endif %}">
+        <div class="product-wrap">
+          <div class="product-image__wrapper">
+            <div class="image__container product__imageContainer">
+              <a href="{{ product.url | within: collection }}">
+
+                {% if settings.stickers_enabled == true %}
+                  {%
+                    render 'product-thumbnail__sticker',
+                    product: product,
+                    context: 'product',
+                    collection_handles: collection_handles
+                  %}
+                {% endif %}
+
+                {% comment %} Primary image {% endcomment %}
+                {%
+                  render 'image-element',
+                  image: product.featured_media.preview_image,
+                  alt: alt_text,
+                  object_fit: align_height,
+                  max_height: height,
+                %}
+
+                {% comment %} Secondary image {% endcomment %}
+                {% if product.media[1] != blank and settings.show_secondary_image == true %}
+                  {%
+                    render 'image-element',
+                    image: product.media[1],
+                    alt: alt_text,
+                    object_fit: align_height,
+                    max_height: height,
+                    additional_classes: 'secondary swap--visible',
+                  %}
+                {% endif %}
+              </a>
+            </div>
+
+            {% if hover_enabled or settings.enable_quickshop %}
+              <a href="{{ product.url | within: collection }}">
+                <div class="thumbnail-overlay__container">
+                  {% if hover_enabled %}
+                    <div class="quick-shop__info animated fadeInDown">
+                      <div class="thumbnail-overlay">
+                        <div class="info text-align-{{ settings.thumbnail_text_alignment }}">
+                          {%
+                            render 'product-thumbnail__product-info',
+                            product: product,
+                            hover_enabled: hover_enabled,
+                            collection_handles: collection_handles
+                          %}
+                        </div>
+                      </div>
+                    </div>
+                  {% endif %}
+
+                  {% if settings.enable_quickshop %}
+                    {%
+                      render 'product-thumbnail__quick-shop-button',
+                      product: product
+                    %}
+                  {% endif %}
+
+                  {% if hover_enabled %}
+                    {% if settings.enable_shopify_collection_badges and product.metafields.reviews.rating.value != blank %}
+                      <div class="product__rating rating">
+                        {%
+                          render 'rating-stars',
+                          value: product.metafields.reviews.rating.value.rating,
+                          scale_max: product.metafields.reviews.rating.value.scale_max,
+                        %}
+
+                        <p class="rating__text">
+                          <span aria-hidden="true">
+                            {{ product.metafields.reviews.rating.value }} / {{ product.metafields.reviews.rating.value.scale_max }}
+                          </span>
+                        </p>
+
+                        <p class="rating__count">
+                          <span aria-hidden="true">
+                            {{ product.metafields.reviews.rating_count }}
+                            {% if product.metafields.reviews.rating_count > 1 %}
+                              {{ "general.accessibility.star_reviews_text" | t }}
+                            {% else %}
+                              {{ "general.accessibility.star_review_text" | t }}
+                            {% endif %}
+                          </span>
+                        </p>
+                      </div>
+                    {% endif %}
+                  {% endif %}
+                </div>
+              </a>
+            {% endif %}
+          </div>
+
+          {% if hover_enabled == false %}
+            <div class="thumbnail__caption text-align-{{ settings.thumbnail_text_alignment }}">
+              {%
+                render 'product-thumbnail__product-info',
+                product: product,
+                collection_handles: collection_handles
+              %}
+            </div>
+          {% endif %}
+        </div>
+
+        {%
+          render 'product-thumbnail__swatch',
+          product: product
+        %}
+      </div>
+    {% endif %}
+  {% endfor %}
+</div>

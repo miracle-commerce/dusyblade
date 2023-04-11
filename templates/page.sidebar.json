@@ -1,0 +1,45 @@
+{
+  "sections": {
+    "main": {
+      "type": "page-content_with_sidebar",
+      "blocks": {
+        "featured_promo": {
+          "type": "featured_promo",
+          "settings": {
+            "promo_background": "#EEEEEE",
+            "promo_text": "#000000",
+            "richtext": "<p>Use this area for promotional information.<\/p>",
+            "promo_link": "",
+            "button_label": "Shop now",
+            "button_style": "button--primary"
+          }
+        },
+        "menu": {
+          "type": "menu",
+          "settings": {
+            "menu": ""
+          }
+        },
+        "text": {
+          "type": "text",
+          "settings": {
+            "title": "Heading",
+            "text": "<p>Text area can be used for details about blog authors or general information.<\/p>"
+          }
+        }
+      },
+      "block_order": [
+        "featured_promo",
+        "menu",
+        "text"
+      ],
+      "settings": {
+        "css_class": "",
+        "custom_css": ""
+      }
+    }
+  },
+  "order": [
+    "main"
+  ]
+}

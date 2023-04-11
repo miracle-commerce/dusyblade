@@ -1,0 +1,63 @@
+{%- assign locale_selector = false -%}
+{%- assign currency_selector = false -%}
+
+{%- if settings.show_currency_selector and shop.enabled_currencies.size > 1 or localization.available_countries.size > 1 -%}
+  {%- assign currency_selector = true -%}
+{%- endif -%}
+
+{%- if settings.show_locale_selector and shop.published_locales.size > 1 -%}
+  {%- assign locale_selector = true -%}
+{%- endif -%}
+
+<div class="mobile-menu">
+  <div class="mobile-menu__content">
+    <ul class="mobile-menu__list has-margin-bottom">
+      {% if settings.header_layout == 'vertical' %}
+        {% for block in nav_blocks %}
+          {% if block.type == 'navigation' %}
+            {% assign main_menu = linklists[block.settings.main_linklist] %}
+            {% render 'mobile-menu-loop', main_menu: main_menu %}
+          {% endif %}
+        {% endfor %}
+      {% else %}
+        {% assign main_menu = linklists[section.settings.main_linklist] %}
+        {% render 'mobile-menu-loop', main_menu: main_menu %}
+      {% endif %}
+
+      {% if shop.customer_accounts_enabled %}
+        {% comment %} Accounts {% endcomment %}
+        <li>
+          {% if customer %}
+            {% comment %} Logout {% endcomment %}
+            <a class="mobile-menu__item item-with-icon" href="{{ routes.account_url }}" >
+              {% if settings.icon_style != 'text' %}
+                {% render 'icon', name: 'avatar' %}
+              {% endif %}
+              <span class="icon-caption">
+                {{ 'layout.customer.my_account' | t | escape }}
+              </span>
+            </a>
+          {% else %}
+            {% comment %} Login {% endcomment %}
+            <a class="mobile-menu__item item-with-icon" href="{{ routes.account_login_url }}" >
+              {% if settings.icon_style != 'text' %}
+                {% render 'icon', name: 'avatar' %}
+              {% endif %}
+              <span class="icon-caption">
+                {{ 'layout.customer.log_in' | t | escape }}
+              </span>
+            </a>
+          {% endif %}
+        </li>
+      {% endif %}
+    </ul>
+    {%
+      render 'localization-switcher',
+      id: 'selector-form--mobile',
+      additional_classes: 'selectors-form--mobile',
+      currency_selector: currency_selector,
+      locale_selector: locale_selector,
+      show_currency: settings.show_currency_selector,
+     %}
+  </div>
+</div>

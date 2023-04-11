@@ -1,0 +1,112 @@
+{
+  "sections": {
+    "banner": {
+      "type": "banner",
+      "settings": {
+        "image_darken": false,
+        "subtitle": "Subheading",
+        "width": "wide",
+        "banner_height": "medium",
+        "padding_top": 0,
+        "padding_bottom": 0,
+        "css_class": "",
+        "custom_css": ""
+      }
+    },
+    "main": {
+      "type": "page-content__main",
+      "settings": {
+        "show_heading": true,
+        "heading_alignment": "left",
+        "width": "standard",
+        "padding_top": 40,
+        "padding_bottom": 0,
+        "css_class": "",
+        "custom_css": ""
+      }
+    },
+    "gallery": {
+      "type": "index__gallery",
+      "blocks": {
+        "0ca3c6f3-8a76-4956-a075-fe1bc38dc99f": {
+          "type": "image",
+          "settings": {
+            "link": ""
+          }
+        },
+        "d4ddf2a4-d35b-47d4-b103-3771e27041fd": {
+          "type": "image",
+          "settings": {
+            "link": ""
+          }
+        },
+        "6cc9f227-7d58-40e5-b107-2d966fde637e": {
+          "type": "image",
+          "settings": {
+            "link": ""
+          }
+        },
+        "9ca8d9ad-5440-497c-b10b-b60d10957b2d": {
+          "type": "image",
+          "settings": {
+            "link": ""
+          }
+        },
+        "87720703-7731-4e6f-8e3d-97d3db1fa58e": {
+          "type": "image",
+          "settings": {
+            "link": ""
+          }
+        },
+        "efb4b41e-966f-4566-960b-58a62b749f1a": {
+          "type": "image",
+          "settings": {
+            "link": ""
+          }
+        },
+        "6ef404ba-d4f4-48ca-940f-bbcabb0164fa": {
+          "type": "image",
+          "settings": {
+            "link": ""
+          }
+        },
+        "8ed674f8-0524-462c-ad26-e30a7f38b1d6": {
+          "type": "image",
+          "settings": {
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "0ca3c6f3-8a76-4956-a075-fe1bc38dc99f",
+        "d4ddf2a4-d35b-47d4-b103-3771e27041fd",
+        "6cc9f227-7d58-40e5-b107-2d966fde637e",
+        "9ca8d9ad-5440-497c-b10b-b60d10957b2d",
+        "87720703-7731-4e6f-8e3d-97d3db1fa58e",
+        "efb4b41e-966f-4566-960b-58a62b749f1a",
+        "6ef404ba-d4f4-48ca-940f-bbcabb0164fa",
+        "8ed674f8-0524-462c-ad26-e30a7f38b1d6"
+      ],
+      "settings": {
+        "gallery_type": "classic",
+        "crop_images": false,
+        "images_per_row": 4,
+        "enable_lightbox": true,
+        "overlay_color": "#000000",
+        "link_color": "#FFFFFF",
+        "width": "standard",
+        "show_gutter": true,
+        "padding_top": 0,
+        "padding_bottom": 20,
+        "animation": "none",
+        "css_class": "",
+        "custom_css": ""
+      }
+    }
+  },
+  "order": [
+    "banner",
+    "main",
+    "gallery"
+  ]
+}

@@ -1,0 +1,368 @@
+{% comment %}
+** Testimonial **
+{% endcomment %}
+
+{%- assign blocks = section.blocks -%}
+
+{% comment %} Is the color set to transparent? {% endcomment %}
+{%- assign card_text_alpha = section.settings.card_text | color_extract: 'alpha' -%}
+{%- assign card_background_alpha = section.settings.card_background | color_extract: 'alpha' -%}
+
+{% comment %} Column width {% endcomment %}
+{% if blocks.size >= 3 %}
+  {%- assign column_value = 3 -%}
+{% else %}
+  {%- assign column_value = blocks.size -%}
+{% endif %}
+
+{% capture section_css -%}
+
+  .testimonial-block {
+    background-color: {%- if card_background_alpha != 0 -%}{{ section.settings.card_background }}{%- endif -%};
+  }
+
+  .testimonial__description {
+    color: {%- if card_text_alpha != 0 -%}{{ section.settings.card_text }}{%- endif -%};
+  }
+{%- endcapture -%}
+
+{% style %}
+  #shopify-section-{{ section.id }} {
+    padding-top: {{ section.settings.padding_top }}px;
+    padding-bottom: {{ section.settings.padding_bottom }}px;
+    {% if section.settings.width == 'wide' %}
+      width: 100%;
+    {% endif %}
+  }
+  {% render 'css-loop',
+          css: section_css,
+          id: section.id
+  %}
+  {% render 'css-loop',
+          css: section.settings.custom_css,
+          id: section.id
+  %}
+{% endstyle %}
+
+<section class="section
+                {{ section.settings.css_class }}
+                is-width-{{ section.settings.width }}
+                {% if blocks.size == 3 %}mobile-slider{% endif %}
+                {% if blocks.size <= 3 %}desktop-slider--disabled{% endif %}
+                "
+          {% if section.settings.animation != "none" %}
+            data-scroll-class="{{ section.settings.animation }}"
+          {% endif %}>
+
+  {% if blocks.size > 2 %}
+    <div class="container">
+      <div class="testimonial__nav-wrapper one-whole column is-flex">
+        <div class="testimonial__nav testimonial__nav--prev">
+          {% render 'icon', name: 'left-arrow' %}
+        </div>
+        <div class="testimonial__nav testimonial__nav--next ">
+          {% render 'icon', name: 'right-arrow' %}
+        </div>
+      </div>
+    </div>
+  {% endif %}
+
+  <div class="testimonials container" {% if blocks.size > 2 %}data-testimonial-slider{% endif %}>
+    {% for block in blocks %}
+
+      {% comment %} Content settings {% endcomment %}
+      {%- assign image = block.settings.image -%}
+      {%- assign quote = block.settings.quote -%}
+      {%- assign text = block.settings.text -%}
+      {%- assign info_text = block.settings.info_text -%}
+      {%- assign info_background = block.settings.info_background -%}
+      {% comment %} End content settings {% endcomment %}
+
+      {% comment %} Is the color set to transparent? {% endcomment %}
+      {%- assign info_text_alpha = info_text | color_extract: 'alpha' -%}
+      {%- assign info_background_alpha = info_background | color_extract: 'alpha' -%}
+
+      <div id="shopify-section-{{ block.id }}"
+          class="testimonial-block
+                  block--{{ block.id }}
+                  column
+                  has-images-enabled-{{ section.settings.enable_images }}
+                  testimonial-border--{{ section.settings.show_border }}
+                  testimonial-align--{{ section.settings.card_alignment }}
+                  {% render 'column-width', value: column_value %}
+                  medium-down--one-whole" data-testimonial-index={{ forloop.index0 }} {{ block.shopify_attributes }}>
+
+        <style>
+            .block--{{ block.id }} .testimonial__name {
+              color: {%- if info_text_alpha != 0 -%}{{ info_text }}{%- endif -%};
+              background-color: {%- if info_background_alpha != 0 -%}{{ info_background }}{% else %}{{ settings.shop_bg_color }}{%- endif -%};
+            }
+        </style>
+
+        <div class="testimonial__description">
+            {{ quote }}
+        </div>
+        <div class="testimonial__name">
+
+          {{ text }}
+
+          <div class="testimonial__image has-image-crop image-style--{{ section.settings.crop_shape }}">
+              {% if section.settings.enable_images == true %}
+                {% if image != blank %}
+                  {%
+                    render 'image-element',
+                    image: image,
+                    alt: image.alt,
+                    focal_point: image.presentation.focal_point,
+                  %}
+                {% else %}
+                  {{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}
+                {% endif %}
+              {% endif %}
+            </div>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+</section>
+
+{% comment %}JavaScript{% endcomment %}
+<script
+  type="application/json"
+  data-section-id="{{ section.id }}"
+  data-section-data
+>
+  {
+  }
+</script>
+<script data-theme-editor-load-script src="{{ 'z__jsTestimonials.js' | asset_url }}"></script>
+
+
+{% schema %}
+
+{
+  "name": "Testimonials",
+  "class": "testimonials jsTestimonials",
+  "max_blocks": 21,
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_border",
+      "label": "Show border",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_images",
+      "label": "Show images",
+      "default": true
+    },
+    {
+      "type": "select",
+      "id": "crop_shape",
+      "label": "Image crop shape",
+      "info": "Upload square images for best cropping results",
+      "options": [
+        {
+          "value": "square",
+          "label": "Square"
+        },
+        {
+          "value": "circle",
+          "label": "Circle"
+        }
+      ],
+      "default": "circle"
+    },
+    {
+      "type": "select",
+      "id": "card_alignment",
+      "label": "Alignment",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "color",
+      "id": "card_text",
+      "label": "Quote text",
+      "default": "rgba(0,0,0,0)"
+    },
+    {
+      "type": "color",
+      "id": "card_background",
+      "label": "Quote background",
+      "default": "rgba(0,0,0,0)"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "select",
+      "id": "width",
+      "label": "Width",
+      "default": "standard",
+      "options": [
+        {
+          "value": "standard",
+          "label": "Standard"
+        },
+        {
+          "value": "wide",
+          "label": "Wide"
+        }
+      ]
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Top spacing",
+      "min": 0,
+      "max": 80,
+      "default": 20,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Bottom spacing",
+      "min": 0,
+      "max": 80,
+      "default": 20,
+      "unit": "px"
+    },
+    {
+      "type": "select",
+      "id": "animation",
+      "label": "Animation",
+      "default": "none",
+      "options": [
+        {
+          "value": "none",
+          "label": "None"
+        },
+        {
+          "value": "fadeIn",
+          "label": "Fade in"
+        },
+        {
+          "value": "fadeInDown",
+          "label": "Fade in down"
+        },
+        {
+          "value": "fadeInLeft",
+          "label": "Fade in left"
+        },
+        {
+          "value": "fadeInRight",
+          "label": "Fade in right"
+        },
+        {
+          "value": "slideInLeft",
+          "label": "Slide in left"
+        },
+        {
+          "value": "slideInRight",
+          "label": "Slide in right"
+        },
+        {
+          "value": "zoomIn",
+          "label": "Zoom in"
+        }
+      ]
+    },
+    {
+      "type": "header",
+      "content": "Advanced",
+      "info": "[Learn more](https://help.outofthesandbox.com/hc/en-us/articles/360022329373)"
+    },
+    {
+      "type": "text",
+      "id": "css_class",
+      "label": "CSS Class"
+    },
+    {
+      "type": "textarea",
+      "id": "custom_css",
+      "label": "Custom CSS"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "image",
+      "name": "Testimonial",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image",
+          "info": "500 x 500px recommended"
+        },
+        {
+          "type": "header",
+          "content": "Quote"
+        },
+        {
+          "type": "richtext",
+          "id": "quote",
+          "label": "Text",
+          "default": "<p>Include a favorite customer quote or feedback here.</p>"
+        },
+        {
+          "type": "header",
+          "content": "Customer info"
+        },
+        {
+          "type": "richtext",
+          "id": "text",
+          "label": "Text",
+          "default": "<p><strong>Customer name</strong></p><p><em>More info about them could go here.</em></p><p>customerlink.com</p>"
+        },
+        {
+          "type": "color",
+          "id": "info_text",
+          "label": "Info text",
+          "default": "rgba(0,0,0,0)"
+        },
+        {
+          "type": "color",
+          "id": "info_background",
+          "label": "Info background",
+          "default": "rgba(0,0,0,0)"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Testimonials",
+      "category": "Store information",
+      "settings": {
+          "padding_top": 20,
+          "padding_bottom": 20
+      },
+      "blocks": [
+        {
+          "type": "image"
+        },
+        {
+          "type": "image"
+        },
+        {
+          "type": "image"
+        }
+      ]
+    }
+  ]
+}
+
+{% endschema %}

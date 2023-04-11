@@ -1,0 +1,18 @@
+{
+  "sections": {
+    "banner": {
+      "type": "banner",
+      "settings": {
+      }
+    },
+    "main": {
+      "type": "cart__main",
+      "settings": {
+      }
+    }
+  },
+  "order": [
+    "banner",
+    "main"
+  ]
+}

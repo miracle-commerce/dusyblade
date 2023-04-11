@@ -1,0 +1,124 @@
+{
+  "sections": {
+    "main": {
+      "type": "page-content__main",
+      "settings": {
+        "show_heading": true,
+        "heading_alignment": "left",
+        "width": "standard",
+        "padding_top": 40,
+        "padding_bottom": 0,
+        "css_class": "",
+        "custom_css": ""
+      }
+    },
+    "contact": {
+      "type": "index__contact-form",
+      "blocks": {
+        "0943eae7-73e7-413a-ab5b-fd6a3f2d77a0": {
+          "type": "paragraph",
+          "settings": {
+            "text": "<p>Use this field to display text of any kind, such as standard reply times for inquiries.<\/p>"
+          }
+        },
+        "819ccdac-5c74-43bc-b47b-4b11cc82382a": {
+          "type": "textfield",
+          "settings": {
+            "label": "Name",
+            "required": true
+          }
+        },
+        "a8554837-a77c-4c87-8398-15cb200375c5": {
+          "type": "email",
+          "settings": {
+            "label": "Email"
+          }
+        },
+        "433fc484-88c1-4ec8-8a8d-fc063586f91e": {
+          "type": "textarea",
+          "settings": {
+            "label": "Message",
+            "required": true
+          }
+        }
+      },
+      "block_order": [
+        "0943eae7-73e7-413a-ab5b-fd6a3f2d77a0",
+        "819ccdac-5c74-43bc-b47b-4b11cc82382a",
+        "a8554837-a77c-4c87-8398-15cb200375c5",
+        "433fc484-88c1-4ec8-8a8d-fc063586f91e"
+      ],
+      "settings": {
+        "title": "Get in touch today",
+        "content_text": "<p>Customize your contact form to suit your business! Add custom fields like a dropdown menu, checkbox, text fields and more, so that you can gather pertinent info from shoppers right from the get-go, to help answer their inquiries more effectively.<\/p>",
+        "social_enable": true,
+        "text_alignment": "left",
+        "background": "#e5e5e5",
+        "text_color": "#000000",
+        "form_position": "right",
+        "width": "standard",
+        "padding_top": 0,
+        "padding_bottom": 40,
+        "animation": "none",
+        "css_class": "",
+        "custom_css": ""
+      }
+    },
+    "163069535438a78b63": {
+      "type": "index__rich-text",
+      "settings": {
+        "title": "Come and visit",
+        "heading_font": "open_sans_n4",
+        "heading_color": "rgba(0,0,0,0)",
+        "heading_alignment": "left",
+        "heading_size": 30,
+        "text": "<p>You can add an address here or a short paragraph about your location(s) and hours of operation.<\/p><p>Mon-Fri: 9:00am - 6:00pm<br\/>Sat: 10:00am - 3:00pm<br\/>Sun: Closed<\/p>",
+        "text_font": "open_sans_n4",
+        "text_color": "rgba(0,0,0,0)",
+        "text_alignment": "left",
+        "text_size": 14,
+        "columns": 1,
+        "button_label": "",
+        "button_link": "",
+        "button_alignment": "center",
+        "button_style": "button--primary",
+        "background": "#eeeeee",
+        "gradient": "#c0c0c0",
+        "gradient_rotation": 180,
+        "width": "half",
+        "padding_top": 0,
+        "padding_bottom": 0,
+        "padding_left": 0,
+        "padding_right": 0,
+        "animation": "none",
+        "css_class": "",
+        "custom_css": ""
+      }
+    },
+    "163069459185530e00": {
+      "type": "index__map",
+      "settings": {
+        "map_address": "",
+        "map_height": 400,
+        "zoom_level": 16,
+        "api_key": "",
+        "show_pin": true,
+        "map_style": "default",
+        "width": "half",
+        "padding_top": 0,
+        "padding_bottom": 0,
+        "padding_left": 0,
+        "padding_right": 0,
+        "animation": "none",
+        "css_class": "",
+        "custom_css": ""
+      }
+    }
+  },
+  "order": [
+    "main",
+    "contact",
+    "163069535438a78b63",
+    "163069459185530e00"
+  ]
+}

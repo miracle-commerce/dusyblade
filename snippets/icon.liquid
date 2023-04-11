@@ -1,0 +1,10 @@
+{% comment %}
+Required values
+name: <icon name>
+{% endcomment %}
+
+{% if settings.icon == 'icon_solid' %}
+  {% render 'icon_solid', name: name, icon_class: icon_class %}
+{% elsif settings.icon == 'icon_outline' %}
+  {% render 'icon_outline', name: name, icon_class: icon_class %}
+{% endif %}

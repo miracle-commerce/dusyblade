@@ -1,0 +1,364 @@
+{% comment %}
+** FAQ **
+{% endcomment %}
+
+{% assign id = section.id %}
+{% assign title = section.settings.title %}
+{% assign img_border_radius = section.settings.border_radius %}
+{% comment %} Layout {% endcomment %}
+{% assign width = section.settings.width %}
+{% assign animation = section.settings.animation | default: 'none' %}
+{% assign padding_top = section.settings.padding_top %}
+{% assign padding_bottom = section.settings.padding_bottom %}
+{% comment %} Advanced {% endcomment %}
+{% assign css_class = section.settings.css_class %}
+{% assign custom_css = section.settings.custom_css %}
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {% for block in section.blocks %}
+      {% unless block.type == 'heading' %}
+        {
+          "@type": "Question",
+          "name": "{{ block.settings.title | escape }}",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "{{ block.settings.answer | strip_html }}"
+          }
+        }{% unless forloop.last %},{% endunless %}
+      {% endunless %}
+    {% endfor %}
+  ]
+}
+</script>
+
+{% comment %} Section specific CSS {% endcomment %}
+{% style %}
+  #shopify-section-{{ id }} {
+    padding-top: {{ padding_top }}px;
+    padding-bottom: {{ padding_bottom }}px;
+    {% if section.settings.width == 'wide' %}
+      width: 100%;
+    {% endif %}
+  }
+
+  {% render 'css-loop',
+          css: custom_css,
+          id: id
+  %}
+{% endstyle %}
+
+{% capture icon_set %}
+{% if settings.toggle_icon_style == 'carets' %}
+  {% render 'icon',
+          name: 'down-caret',
+          icon_class: 'icon--rotate'
+  %}
+{% else %}
+  {% render 'icon',
+          name: 'plus',
+          icon_class: 'icon--active'
+  %}
+  {% render 'icon', name: 'minus' %}
+{% endif %}
+{% endcapture %}
+
+<section class="section
+        {{ css_class }}
+        is-width-{{ width }}
+        has-gutter-enabled
+        {% if width == 'wide' %}
+          equal-columns--outside-trim
+        {% endif %}"
+        {% if animation != "none" %}data-scroll-class="{{ animation }}"{% endif %}>
+  <div class="container">
+    {%- if title != blank -%}
+      {% render 'heading',
+              title: title,
+              heading_tag: 'h2',
+              context: 'faq',
+              text_alignment: 'left'
+      %}
+    {%- endif -%}
+
+    {% if section.blocks.size > 0 %}
+      {% for block in section.blocks %}
+        {% if block.type == 'image' %}
+          {% assign image = true %}
+        {% endif %}
+      {% endfor %}
+    {% endif %}
+
+    <div class="page-faq__column-wrap container column-wrapper">
+      <div class="{% if image == true %}one-half{% else %}one-whole{% endif %} medium-down--one-whole column faq faq__column-1">
+        {% if section.blocks.size > 0 %}
+          <dl class="{{ section.settings.css_class }}
+                    faq-accordion
+                    accordion-icon--{{ settings.toggle_icon_style }}">
+            {% for block in section.blocks %}
+              {% if block.type == 'content' %}
+
+                {% if block.settings.title != blank %}
+                  <dt>
+                    <button class="accordion-style--{{ settings.toggle_icon_style }} accordion__button" type="button" aria-controls="panel-{{ block.id }}" aria-expanded="true">
+                      {{ icon_set }}
+                      {{ block.settings.title }}
+                    </button>
+                  </dt>
+                  <dd id="panel-{{ block.id }}" aria-hidden="false">
+                    <div class="content">
+                      {{ block.settings.answer }}
+                    </div>
+                  </dd>
+                {% endif %}
+
+              {% elsif block.type == 'heading' %}
+
+                {% if block.settings.title != blank %}
+                  <h2 class="title faq-title">{{ block.settings.title }}</h2>
+                {% endif %}
+
+              {% endif %}
+
+            {% endfor %}
+          </dl>
+        {% endif %}
+      </div>
+
+      {% if section.blocks.size > 0 %}
+        {% for block in section.blocks %}
+          {% if block.type == 'image' %}
+            <div class="one-half medium-down--one-whole column faq faq--image faq__column-2">
+              {% if block.settings.image != blank %}
+                  {%
+                    render 'image-element',
+                    image: block.settings.image,
+                    alt: block.settings.image.alt,
+                    stretch_width: true,
+                    focal_point: block.settings.image.presentation.focal_point,
+                  %}
+              {% else %}
+                {{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}
+              {% endif %}
+            </div>
+          {% endif %}
+        {% endfor %}
+      {% endif %}
+    </div>
+  </div>
+</section>
+
+<script data-theme-editor-load-script src="{{ 'z__jsFAQ.js' | asset_url }}"></script>
+
+{% schema %}
+{
+  "name": "FAQ",
+  "class": "FAQ jsFAQ",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Heading",
+      "default": "FAQ"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "select",
+      "id": "width",
+      "label": "Width",
+      "default": "standard",
+      "options": [
+        {
+          "value": "standard",
+          "label": "Standard"
+        },
+        {
+          "value": "wide",
+          "label": "Wide"
+        }
+      ]
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Top spacing",
+      "min": 0,
+      "max": 80,
+      "default": 56,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Bottom spacing",
+      "min": 0,
+      "max": 80,
+      "default": 56,
+      "unit": "px"
+    },
+    {
+      "type": "select",
+      "id": "animation",
+      "label": "Animation",
+      "default": "none",
+      "options": [
+        {
+          "value": "none",
+          "label": "None"
+        },
+        {
+          "value": "fadeIn",
+          "label": "Fade in"
+        },
+        {
+          "value": "fadeInDown",
+          "label": "Fade in down"
+        },
+        {
+          "value": "fadeInLeft",
+          "label": "Fade in left"
+        },
+        {
+          "value": "fadeInRight",
+          "label": "Fade in right"
+        },
+        {
+          "value": "slideInLeft",
+          "label": "Slide in left"
+        },
+        {
+          "value": "slideInRight",
+          "label": "Slide in right"
+        },
+        {
+          "value": "zoomIn",
+          "label": "Zoom in"
+        }
+      ]
+    },
+    {
+      "type": "header",
+      "content": "Advanced"
+    },
+    {
+      "type": "paragraph",
+      "content": "[Learn more](https://help.outofthesandbox.com/hc/en-us/articles/360022329373)"
+    },
+    {
+      "type": "text",
+      "id": "css_class",
+      "label": "CSS Class"
+    },
+    {
+      "type": "textarea",
+      "id": "custom_css",
+      "label": "Custom CSS"
+    }
+  ],
+  "blocks": [
+    {
+      "name": "Frequently asked question",
+      "type": "content",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Question",
+          "default": "What is your question?"
+        },
+        {
+          "type": "richtext",
+          "id": "answer",
+          "label": "Answer",
+          "default": "<p>Provide the answer to the question here.</p>"
+        }
+      ]
+    },
+    {
+      "name": "Heading",
+      "type": "heading",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Heading",
+          "default": "Section heading"
+        }
+      ]
+    },
+    {
+      "name": "Image",
+      "type": "image",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image",
+          "info": "1000 x 1000px recommended"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "FAQ",
+      "category": "Store information",
+      "blocks": [
+        {
+          "type": "heading",
+          "settings": {
+          }
+        },
+        {
+          "type": "content",
+          "settings": {
+          }
+        },
+        {
+          "type": "content",
+          "settings": {
+
+          }
+        },
+        {
+          "type": "content",
+          "settings": {
+          }
+        },
+        {
+          "type": "heading",
+          "settings": {
+          }
+        },
+        {
+          "type": "content",
+          "settings": {
+          }
+        },
+        {
+          "type": "content",
+          "settings": {
+          }
+        },
+        {
+          "type": "content",
+          "settings": {
+          }
+        },
+        {
+          "type": "image",
+          "settings": {
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

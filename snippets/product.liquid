@@ -1,0 +1,405 @@
+{% comment %}
+    Product snippet
+
+    @param product
+    @param selected_variant
+    @param width
+    @param css_class
+    @param display_social_buttons
+    @param display_thumbnails
+    @param enable_product_lightbox
+    @param enable_thumbnail_slider
+    @param enable_zoom
+    @param gallery_arrows
+    @param product_description_position
+    @param product_height
+    @param set_product_height
+    @param slideshow_transition
+    @param stickers_enabled
+    @param tag_style
+    @param thumbnail_position
+    @param video_looping
+    @param section_onboarding
+  {% endcomment %}
+
+{% comment %} HTML markup {% endcomment %}
+
+<div class="product_section
+            js-product_section
+            container
+            is-justify-space-between
+            has-padding-bottom
+            {% if product_images_position == 'right' %}
+              is-flex-row-reverse
+            {% endif %}">
+
+  <div class="product__images
+              one-half
+              column
+              medium-down--one-whole">
+    {% if section_onboarding %}
+      <div class="featured-product__images">
+        {{ 'product-1' | placeholder_svg_tag: 'placeholder-svg placeholder-svg--product' }}
+      </div>
+    {% else %}
+      {%
+        render 'product__images',
+        product: product,
+        display_thumbnails: display_thumbnails,
+        thumbnail_position: thumbnail_position,
+        enable_thumbnail_slider: enable_thumbnail_slider,
+        product_height: product_height,
+        set_product_height: set_product_height,
+        video_looping: video_looping
+        gallery_arrows: gallery_arrows,
+        slideshow_transition: slideshow_transition,
+        enable_product_lightbox: enable_product_lightbox,
+        enable_zoom: enable_zoom
+      %}
+    {% endif %}
+  </div>
+
+  <div class="product__information
+              has-product-sticker
+              one-half
+              column
+              medium-down--one-whole">
+
+    {% comment %} Sale sticker {% endcomment %}
+    {% if stickers_enabled %}
+      {% assign collection_handles = product.collections | map: 'handle' %}
+      {%
+        render 'product-thumbnail__sticker',
+        product: product,
+        context: 'product',
+        collection_handles: collection_handles,
+      %}
+    {% endif %}
+
+    {%- for block in section.blocks -%}
+      <div
+        class="
+          product-block
+          product-block--{{ block.type | downcase | replace: '_', '-' }}
+          {% if forloop.first == true %}
+            product-block--first
+          {% endif %}
+        "
+        {{ block.shopify_attributes }}
+      >
+        {%- if block.type == 'vendor' -%}
+          {% comment %} Vendor {% endcomment %}
+          <p class="vendor">
+            <span class="vendor">
+              {% if section_onboarding %}
+                Vendor name
+              {% else %}
+                {{ product.vendor | link_to_vendor }}
+              {% endif %}
+            </span>
+          </p>
+
+        {%- elsif block.type == 'sku' -%}
+          {% comment %} Sku {% endcomment %}
+          <p class="sku">
+            {% if section_onboarding %}
+              1234567890
+            {% else %}
+              {{ selected_variant.sku }}
+            {% endif %}
+          </p>
+
+        {%- elsif block.type == 'title' -%}
+          {% comment %} Name {% endcomment %}
+          <h1 class="product_name title">
+            {% if is_product_modal %}
+              <a href="{{ product.url }}">{{ product.title }}</a>
+            {% elsif section_onboarding %}
+              {{ 'homepage.onboarding.product_title' | t }}
+            {% else %}
+              {{ product.title }}
+            {% endif %}
+          </h1>
+
+        {%- elsif block.type == 'size-chart' -%}
+          {% comment %} Size chart {% endcomment %}
+          {% for tag in product.tags %}
+            {% if tag contains 'meta-size-chart-' %}
+              {% assign meta_size_chart = true %}
+            {% endif %}
+          {% endfor %}
+
+          {% if settings.size_chart != blank or block.settings.size_chart != blank or meta_size_chart %}
+            <a
+              class="product__size-chart"
+              href="javascript:;"
+              data-fancybox
+              data-src="#size-chart{{ product.id }}"
+              data-type="inline"
+            >
+              {{ block.settings.title | escape }}
+            </a>
+            {%
+              render 'popup-size-chart',
+              block: block,
+              product_id: product.id,
+            %}
+          {% endif %}
+
+        {%- elsif block.type == 'price' -%}
+          {% comment %} Price {% endcomment %}
+          <div class="modal_price subtitle" data-display-savings="{{ block.settings.display_savings }}">
+            {% if section_onboarding %}
+              <span class="money">$49.00</span>
+            {% else %}
+              {% comment %}Inject @pixelunion/shopify-price-ui/price-ui begin{% endcomment %}
+              <div class="price-ui price-ui--loading" data-price-ui>
+                <noscript>
+                  <style>
+                    .price-ui--loading {
+                      display: block !important;
+                      opacity: 1 !important;
+                    }
+                  </style>
+                </noscript>
+                {% assign compare_at_price = false %}
+              
+                {% if product.compare_at_price and product.compare_at_price != product.price %}
+                  {% if product.compare_at_price_varies %}
+                    {%- capture price_min -%}
+                      {%-
+                        render 'price-ui-templates',
+                        template: 'price-min',
+                        value: product.compare_at_price_min,
+                      -%}
+                    {%- endcapture -%}
+              
+                    {%- capture price_max -%}
+                      {%-
+                        render 'price-ui-templates',
+                        template: 'price-max',
+                        value: product.compare_at_price_max,
+                      -%}
+                    {%- endcapture -%}
+              
+                    {%- assign compare_at_price = 'product.price.range_html' | t: price_min: price_min, price_max: price_max -%}
+                  {% else %}
+                    {%- capture compare_at_price -%}
+                      {%-
+                        render 'price-ui-templates',
+                        template: 'price',
+                        value: product.compare_at_price,
+                      -%}
+                    {%- endcapture -%}
+                  {% endif %}
+                {% endif %}
+              
+                {% if product.price_varies %}
+                  {%- capture price_min -%}
+                    {%-
+                      render 'price-ui-templates',
+                      template: 'price-min',
+                      value: product.price_min,
+                    -%}
+                  {%- endcapture -%}
+              
+                  {%- capture price_max -%}
+                    {%-
+                      render 'price-ui-templates',
+                      template: 'price-max',
+                      value: product.price_max,
+                    -%}
+                  {%- endcapture -%}
+              
+                  {%- assign price = 'product.price.range_html' | t: price_min: price_min, price_max: price_max -%}
+                {% else %}
+                  {%- capture price -%}
+                    {%-
+                      render 'price-ui-templates',
+                      template: 'price',
+                      value: product.price,
+                    -%}
+                  {%- endcapture -%}
+                {% endif %}
+              
+                {%-
+                  render 'price-ui-templates',
+                  template: 'price-ui',
+                  compare_at_price: compare_at_price,
+                  price: price,
+                  unit_pricing: false,
+                -%}
+              </div>
+              {% comment %}Inject @pixelunion/shopify-price-ui/price-ui end{% endcomment %}
+
+            {% endif %}
+          </div>
+
+        {%- elsif block.type == 'complementary_products' -%}
+          {% comment %} Complementary products {% endcomment %}
+          {%
+            render 'complementary-products',
+            product: product,
+            block: block,
+          %}
+
+        {%- elsif block.type == 'description' -%}
+          {% comment %} Description {% endcomment %}
+          {% if block.settings.custom_description != blank %}
+            <div class="description content has-padding-top">
+              {{ block.settings.custom_description }}
+            </div>
+          {% elsif section_onboarding %}
+            <div class="description content has-padding-top">
+              <p>
+                {{ 'homepage.onboarding.product_description' | t }}
+              </p>
+            </div>
+          {% else %}
+            {% if product.description != blank %}
+              <div
+                class="
+                  description
+                  content
+                  has-padding-top
+                "
+              >
+                {% if is_product_modal %}
+                  {% if block.settings.truncate_words %}
+                    {{ product.description | strip_html | truncatewords: block.settings.truncate_words_limit | replace: 'Description', '' | replace: 'Dimensions', '' | replace: 'Details', '' | replace: 'Specs', '' | replace: 'Shipping', '' | replace: 'Size', '' | escape | split: '<!-- split -->' | first }}
+                  {% else %}
+                    {{ product.description | strip_html | replace: 'Description', '' | replace: 'Dimensions', '' | replace: 'Details', '' | replace: 'Specs', '' | replace: 'Shipping', '' | replace: 'Size', '' | escape | split: '<!-- split -->' | first }}
+                  {% endif %}
+                {% else %}
+                  {{ product.description | split: '<!-- split -->' | first }}
+                {% endif %}
+              </div>
+            {% endif %}
+          {% endif %}
+
+          {% if is_product_modal %}
+            <a
+              class="product__view-details"
+              href="{{ product.url | within: collection }}"
+              title="{{ product.title | escape }}"
+            >
+              {{- 'collections.general.view_product_details' | t -}}
+            </a>
+          {% endif %}
+
+        {%- elsif block.type == 'form' -%}
+          {% comment %} Purchase form {% endcomment %}
+          {% if section_onboarding %}
+            <div class="product-form-container has-padding-top">
+              <div class="purchase-details">
+                <div class="purchase-details__buttons purchase-details__spb--false">
+                  <button name="add" class="action_button button button--add-to-cart add_to_cart" data-label={{ add_to_cart_label | json }}><span class="text">{{ 'products.product.add_to_cart' | t }}</span></button>
+                </div>
+              </div>
+            </div>
+          {% else %}
+            <div class="product-form-container has-padding-top">
+
+              {% comment %} Notify form {% endcomment %}
+              {% render 'product__notify-me-form', product: product %}
+
+              {% comment %} Product form {% endcomment %}
+              {% unless collection_handles contains 'coming-soon' %}
+                {%
+                  render 'product__form',
+                  context: 'product',
+                  product: product,
+                  sold_out_options: sold_out_options,
+                  selected_variant: selected_variant,
+                  show_payment_button: block.settings.show_payment_button,
+                  collection_handles: collection_handles
+                %}
+              {% endunless %}
+            </div>
+          {% endif %}
+
+        {%- elsif block.type == 'product-links' -%}
+          {% comment %} Collections, type, tags {% endcomment %}
+          {% if block.settings.show_collections or block.settings.show_tags or block.settings.show_type %}
+            <div class="product__classification-links has-padding-top">
+              {% if block.settings.show_collections %}
+                <p class="product__collections-list tags">
+                  <span class="product__classification-title">{{ 'products.product.collections' | t }}:</span>
+                  {% for col in product.collections %}
+                    <span class="tag tag--{{ tag_style }}">
+                      <a href="{{ col.url }}" title="{{ col.title }}">{{ col.title }}</a>
+                    </span>
+                  {% endfor %}
+                </p>
+              {% endif %}
+
+              {% if block.settings.show_type %}
+                <p class="product__type-list tags">
+                  <span class="product__classification-title">{{ 'products.product.product_types' | t }}:</span>
+                  <span class="tag tag--{{ tag_style }}">{{ product.type | link_to_type }}</span>
+                </p>
+              {% endif %}
+
+              {% if block.settings.show_tags and product.tags.size > 0 %}
+                <p class="product__tags-list tags">
+                  <span class="product__classification-title">{{ 'products.product.tags' | t }}:</span>
+                  {% for tag in product.tags %}
+                    {% unless tag contains 'meta-' %}
+                      <span class="tag tag--{{ tag_style }}">
+                        <a href="{{ routes.collections_url }}/{% if collection %}{{ collection.handle }}{% else %}all{% endif %}/{{ tag | handle }}" title="{{ 'products.product.products_tagged' | t: tag: tag }}">{{ tag }}</a>
+                      </span>
+                    {% endunless %}
+                  {% endfor %}
+                </p>
+              {% endif %}
+            </div>
+          {% endif %}
+
+        {%- elsif block.type == 'rating' -%}
+          {% if product.metafields.reviews.rating.value != blank %}
+            <div class="product__rating rating">
+              {%
+                render 'rating-stars',
+                value: product.metafields.reviews.rating.value.rating,
+                scale_max: product.metafields.reviews.rating.value.scale_max,
+              %}
+
+              <p class="rating__text">
+                <span aria-hidden="true">
+                  {{ product.metafields.reviews.rating.value }} / {{ product.metafields.reviews.rating.value.scale_max }}
+                </span>
+              </p>
+
+              <p class="rating__count">
+                <span aria-hidden="true">
+                  {{ product.metafields.reviews.rating_count }}
+                  {% if product.metafields.reviews.rating_count > 1 %}
+                    {{ "general.accessibility.star_reviews_text" | t }}
+                  {% else %}
+                    {{ "general.accessibility.star_review_text" | t }}
+                  {% endif %}
+                </span>
+              </p>
+            </div>
+          {% endif %}
+
+        {%- elsif block.type == 'share' -%}
+          {% comment %} Social share icons {% endcomment %}
+          <div class="product__social-share has-padding-top">
+            {% render 'social-share-buttons' %}
+          </div>
+
+        {%- elsif block.type == 'text' -%}
+          {% comment %} Text {% endcomment %}
+          <div class="product-text">
+            {{ block.settings.text }}
+          </div>
+        {% elsif block.type == '@app' %}
+          <div class="product-app">
+            {% render block %}
+          </div>
+        {%- endif -%}
+      </div>
+    {%- endfor -%}
+  </div>
+</div>
