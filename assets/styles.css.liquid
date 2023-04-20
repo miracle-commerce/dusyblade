@@ -18157,3 +18157,50 @@ Custom Styles for Product Thumbnail
   font-weight: 600;
   font-size: 16px; 
 }
+
+/* ================================================
+Custom Styles for the product page
+===================================================*/
+@media only screen and (min-width: 799px){
+  .product__images{
+    width: calc(60% - 20px);
+  }
+  
+  .product__information{
+    width: calc(40% - 20px);
+  }
+}
+
+.product-gallery__main{
+  border-radius: 8px; 
+  overflow: hidden;
+  box-shadow: 0 0 5px 0px #999;
+}
+
+.product-gallery__thumbnail{
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.thumbnail-image__container{
+  position: relative; 
+  width: 100%; 
+  height: 0; 
+  padding-bottom: 100%;
+}
+
+.product-gallery__thumbnail img{
+  position: absolute; 
+  left: 0; 
+  top: 0;
+  width: 100%; 
+  height: 100%;
+  object-fit: cover; 
+  object-position: center center; 
+}
+
+@media only screen and (max-width: 798px){
+  .product-gallery__thumbnails{
+    margin-top: 30px;
+  }
+}

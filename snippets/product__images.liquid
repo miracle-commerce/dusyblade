@@ -177,7 +177,9 @@ enable_product_lightbox: <boolean>
 
           <div class="product-gallery__thumbnail one-fifth column is-relative"
                 data-title="{{ media.alt | escape }}" tabindex="0">
-            <img src="{{ media | img_url: '300x' }}" alt="">
+            <div class="thumbnail-image__container">
+              <img src="{{ media | img_url: '300x' }}" alt="">
+            </div>
             {% if thumbnail_badge != blank %}
               {% render 'icon',
                       name: thumbnail_badge,
