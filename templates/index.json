@@ -257,66 +257,6 @@
         "custom_css": ""
       }
     },
-    "17a7f950-2622-4819-8e97-443eccd35f20": {
-      "type": "index__icon-with-text-column",
-      "blocks": {
-        "template--18042144162082__17a7f950-2622-4819-8e97-443eccd35f20-167786538346b174a8-0": {
-          "type": "logo_image",
-          "settings": {
-            "icon_label": "truck",
-            "title": "Smooth shipping",
-            "text": "<p>Has a history of shipping on time with tracking.<\/p>",
-            "button_label": "",
-            "link": ""
-          }
-        },
-        "template--18042144162082__17a7f950-2622-4819-8e97-443eccd35f20-167786538346b174a8-1": {
-          "type": "logo_image",
-          "settings": {
-            "icon_label": "email",
-            "title": "Speedy replies",
-            "text": "<p>Has a history of replying to messages quickly.<\/p>",
-            "button_label": "",
-            "link": ""
-          }
-        },
-        "template--18042144162082__17a7f950-2622-4819-8e97-443eccd35f20-167786538346b174a8-2": {
-          "type": "logo_image",
-          "settings": {
-            "icon_label": "fire",
-            "title": "Rave reviews",
-            "text": "<p>Average review rating is 4.8 or higher<\/p>",
-            "button_label": "",
-            "link": ""
-          }
-        }
-      },
-      "block_order": [
-        "template--18042144162082__17a7f950-2622-4819-8e97-443eccd35f20-167786538346b174a8-0",
-        "template--18042144162082__17a7f950-2622-4819-8e97-443eccd35f20-167786538346b174a8-1",
-        "template--18042144162082__17a7f950-2622-4819-8e97-443eccd35f20-167786538346b174a8-2"
-      ],
-      "settings": {
-        "icons_per_row": 3,
-        "icon_size": "large",
-        "align_text": "center",
-        "button_style": "button--primary",
-        "icon_color": "rgba(0,0,0,0)",
-        "text_color": "rgba(0,0,0,0)",
-        "background": "#cccccc",
-        "gradient": "rgba(0,0,0,0)",
-        "gradient_rotation": 0,
-        "width": "wide",
-        "show_gutter": true,
-        "padding_top": 20,
-        "padding_bottom": 20,
-        "padding_left": 20,
-        "padding_right": 20,
-        "animation": "none",
-        "css_class": "",
-        "custom_css": ""
-      }
-    },
     "16812442808490fad9": {
       "type": "apps",
       "blocks": {
@@ -340,51 +280,6 @@
         "css_class": "",
         "custom_css": ""
       }
-    },
-    "e2350054-1f14-4305-9e2a-a6f186b63c55": {
-      "type": "index__contact-form",
-      "blocks": {
-        "template--18042144162082__e2350054-1f14-4305-9e2a-a6f186b63c55-16778658982d97664d-0": {
-          "type": "textfield",
-          "settings": {
-            "label": "Name",
-            "required": true
-          }
-        },
-        "template--18042144162082__e2350054-1f14-4305-9e2a-a6f186b63c55-16778658982d97664d-1": {
-          "type": "email",
-          "settings": {
-            "label": "Email"
-          }
-        },
-        "template--18042144162082__e2350054-1f14-4305-9e2a-a6f186b63c55-16778658982d97664d-2": {
-          "type": "textarea",
-          "settings": {
-            "label": "Message",
-            "required": false
-          }
-        }
-      },
-      "block_order": [
-        "template--18042144162082__e2350054-1f14-4305-9e2a-a6f186b63c55-16778658982d97664d-0",
-        "template--18042144162082__e2350054-1f14-4305-9e2a-a6f186b63c55-16778658982d97664d-1",
-        "template--18042144162082__e2350054-1f14-4305-9e2a-a6f186b63c55-16778658982d97664d-2"
-      ],
-      "settings": {
-        "title": "Get in touch today",
-        "content_text": "<p>Customize your contact form to suit your business! Add custom fields like a dropdown menu, checkbox, text fields and more, so that you can gather pertinent info from shoppers right from the get-go, to help answer their inquiries more effectively.<\/p>",
-        "social_enable": false,
-        "text_alignment": "left",
-        "background": "#e5e5e5",
-        "text_color": "#000000",
-        "form_position": "right",
-        "width": "standard",
-        "padding_top": 40,
-        "padding_bottom": 40,
-        "animation": "none",
-        "css_class": "",
-        "custom_css": ""
-      }
     }
   },
   "order": [
@@ -392,8 +287,6 @@
     "heading",
     "9c5fb76c-5684-4a5c-8377-312b6a348ca7",
     "image_with_text",
-    "17a7f950-2622-4819-8e97-443eccd35f20",
-    "16812442808490fad9",
-    "e2350054-1f14-4305-9e2a-a6f186b63c55"
+    "16812442808490fad9"
   ]
 }

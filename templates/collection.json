@@ -5,7 +5,7 @@
       "settings": {
         "image_darken": true,
         "width": "wide",
-        "banner_height": "medium",
+        "banner_height": "small",
         "padding_top": 0,
         "padding_bottom": 0,
         "css_class": "",

@@ -93,6 +93,28 @@
         "custom_css": ""
       }
     },
+    "1681250511a575e3e4": {
+      "type": "apps",
+      "blocks": {
+        "8f9c5db5-4052-4bc3-91ec-5f44978a5d9c": {
+          "type": "shopify:\/\/apps\/reputon-etsy-reviews\/blocks\/list-widget-block\/8df530b9-db50-44f9-a43b-c93c6bac56a9",
+          "settings": {
+            "themeId": "light",
+            "showProductPicture": false
+          }
+        }
+      },
+      "block_order": [
+        "8f9c5db5-4052-4bc3-91ec-5f44978a5d9c"
+      ],
+      "settings": {
+        "width": "standard",
+        "padding_top": 20,
+        "padding_bottom": 20,
+        "css_class": "",
+        "custom_css": ""
+      }
+    },
     "recommendations": {
       "type": "product__recommendations",
       "settings": {
@@ -116,6 +138,7 @@
     "breadcrumbs",
     "sidebar",
     "main",
+    "1681250511a575e3e4",
     "recommendations"
   ]
 }
