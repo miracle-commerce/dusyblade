@@ -172,11 +172,21 @@
               "menu": "main-menu",
               "social_icons_footer": false
             }
+          },
+          "80e98408-7c71-4076-937c-000e60404c60": {
+            "type": "newsletter",
+            "settings": {
+              "newsletter_title": "Subscribe",
+              "newsletter_richtext": "<p>Sign up to get the latest on sales, new releases and more …<\/p>",
+              "display_first_name": false,
+              "display_last_name": false
+            }
           }
         },
         "block_order": [
           "footer-classic-0",
-          "footer-classic-1"
+          "footer-classic-1",
+          "80e98408-7c71-4076-937c-000e60404c60"
         ],
         "settings": {
           "copyright_text": "",
