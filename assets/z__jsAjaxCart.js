@@ -168,7 +168,7 @@ window.PXUTheme.jsAjaxCart = {
 
       $addToCartForm
         .addClass('shopify-product-form--unselected-error')
-        .find('.cart-warning')
+        .find('.cart-warning').removeClass("hide")
         .html(cartWarning);
 
       $addToCartBtn

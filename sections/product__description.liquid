@@ -27,7 +27,6 @@
 {% endstyle %}
 
 {% comment %} HTML markup {% endcomment %}
-{% if product.description contains "<!-- split -->"  %}
 <section class="section
               {{ section.settings.css_class }}
               is-width-{{ section.settings.width }}
@@ -47,19 +46,18 @@
       <div class="one-whole column">
         <div class="product-description-split">
           <div class="description content">
-            {{ product.description | split: '<!-- split -->' | last }}
+            {{ product.description }}
           </div>
         </div>
       </div>
   </div>
 </section>
-{% endif %}
 
 {% schema %}
 
 {
-  "name": "Description split",
-  "class": "product-template product-split-description",
+  "name": "Product Description",
+  "class": "product-template product-description",
   "templates": [
     "product"
   ],
@@ -159,7 +157,7 @@
     }
   ],
   "presets": [{
-    "name": "Description <!-- split -->",
+    "name": "Product Description",
     "category": "Product",
     "settings": {
     }

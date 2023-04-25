@@ -284,7 +284,16 @@
               {{- 'collections.general.view_product_details' | t -}}
             </a>
           {% endif %}
-
+        
+        {%- elsif block.type == 'highlights' -%}
+          {%- if product.metafields.custom.highlights != blank -%}
+          <div class="product__highlight">
+            <h6 class="product__highlight__title">Highlights</h6>
+            <div class="product__highlight__content">
+              {{product.metafields.custom.highlights | metafield_tag}}
+            </div>            
+          </div>
+          {%- endif -%}
         {%- elsif block.type == 'form' -%}
           {% comment %} Purchase form {% endcomment %}
           {% if section_onboarding %}
@@ -396,6 +405,10 @@
           <div class="product-app">
             {% render block %}
           </div>
+        {% elsif block.type == 'wishlist-widget' %}
+          {%- if block.settings.wishlist_widget_code != blank -%}
+          <div class="product-wishlist">{{block.settings.wishlist_widget_code}}</div>
+          {%- endif -%}
         {%- endif -%}
       </div>
     {%- endfor -%}

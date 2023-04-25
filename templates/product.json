@@ -23,21 +23,19 @@
     "main": {
       "type": "product__main",
       "blocks": {
-        "88ec537e-532a-48a5-8808-8254741750b6": {
-          "type": "vendor",
-          "settings": {
-          }
-        },
         "title": {
           "type": "title",
           "settings": {
           }
         },
-        "922b92e8-2ad0-4c56-ba1b-8598988135c9": {
-          "type": "shopify:\/\/apps\/reputon-etsy-reviews\/blocks\/compact-widget-block\/8df530b9-db50-44f9-a43b-c93c6bac56a9",
+        "88ec537e-532a-48a5-8808-8254741750b6": {
+          "type": "vendor",
           "settings": {
-            "themeId": "light",
-            "minimize": true
+          }
+        },
+        "f0750072-61d4-4dea-a2b5-0f599ab3ba36": {
+          "type": "rating",
+          "settings": {
           }
         },
         "price": {
@@ -46,36 +44,37 @@
             "display_savings": true
           }
         },
-        "f0750072-61d4-4dea-a2b5-0f599ab3ba36": {
-          "type": "rating",
-          "settings": {
-          }
-        },
-        "form": {
+        "30142a9d-3f40-4de1-9ffc-97e20bf99ef4": {
           "type": "form",
           "settings": {
-            "show_payment_button": false
+            "show_payment_button": true
           }
         },
-        "description": {
-          "type": "description",
+        "eb57d3f1-0466-4076-9eb3-107de60a0f6b": {
+          "type": "wishlist-widget",
+          "settings": {
+            "wishlist_widget_code": "<div class=\"swym-button swym-add-to-wishlist\"\ndata-with-epi=\"true\"\ndata-swaction=\"addToWishlist\"\ndata-product-id=\"{{ product.id }}\"\ndata-variant-id=\"{{ product.variants[0].id }}\"\ndata-product-url=\"{{ shop.url }}{{ product.url }}\" ><\/div>"
+          }
+        },
+        "3af991a1-363c-4d3f-bb80-9d0002e54485": {
+          "type": "highlights",
           "settings": {
           }
         }
       },
       "block_order": [
-        "88ec537e-532a-48a5-8808-8254741750b6",
         "title",
-        "922b92e8-2ad0-4c56-ba1b-8598988135c9",
-        "price",
+        "88ec537e-532a-48a5-8808-8254741750b6",
         "f0750072-61d4-4dea-a2b5-0f599ab3ba36",
-        "form",
-        "description"
+        "price",
+        "30142a9d-3f40-4de1-9ffc-97e20bf99ef4",
+        "eb57d3f1-0466-4076-9eb3-107de60a0f6b",
+        "3af991a1-363c-4d3f-bb80-9d0002e54485"
       ],
       "settings": {
         "product_images_position": "left",
         "set_product_height": true,
-        "product_height": 500,
+        "product_height": 700,
         "video_looping": false,
         "gallery_arrows": true,
         "enable_zoom": false,
@@ -93,19 +92,28 @@
         "custom_css": ""
       }
     },
-    "1681250511a575e3e4": {
+    "79c3814d-a874-4327-a7da-2c974438b2dd": {
+      "type": "product__description",
+      "settings": {
+        "width": "standard",
+        "padding_top": 20,
+        "padding_bottom": 20,
+        "animation": "none",
+        "css_class": "",
+        "custom_css": ""
+      }
+    },
+    "1682085736505febeb": {
       "type": "apps",
       "blocks": {
-        "8f9c5db5-4052-4bc3-91ec-5f44978a5d9c": {
-          "type": "shopify:\/\/apps\/reputon-etsy-reviews\/blocks\/list-widget-block\/8df530b9-db50-44f9-a43b-c93c6bac56a9",
+        "169d0438-b2b2-49b0-b679-349c6909d2fc": {
+          "type": "shopify:\/\/apps\/product-reviews\/blocks\/reviews\/bae150af-8da8-48b2-9867-398188115e5f",
           "settings": {
-            "themeId": "light",
-            "showProductPicture": false
           }
         }
       },
       "block_order": [
-        "8f9c5db5-4052-4bc3-91ec-5f44978a5d9c"
+        "169d0438-b2b2-49b0-b679-349c6909d2fc"
       ],
       "settings": {
         "width": "standard",
@@ -132,25 +140,14 @@
         "css_class": "",
         "custom_css": ""
       }
-    },
-    "e5a9d651-f7cd-408c-b265-de2619084e91": {
-      "type": "product__description-split",
-      "settings": {
-        "width": "standard",
-        "padding_top": 20,
-        "padding_bottom": 20,
-        "animation": "none",
-        "css_class": "",
-        "custom_css": ""
-      }
     }
   },
   "order": [
     "breadcrumbs",
     "sidebar",
     "main",
-    "1681250511a575e3e4",
-    "recommendations",
-    "e5a9d651-f7cd-408c-b265-de2619084e91"
+    "79c3814d-a874-4327-a7da-2c974438b2dd",
+    "1682085736505febeb",
+    "recommendations"
   ]
 }

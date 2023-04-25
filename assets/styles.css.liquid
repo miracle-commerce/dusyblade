@@ -11385,8 +11385,8 @@ shopify-payment-terms {
 }
 .purchase-details__buttons .action_button.action_button--secondary:hover, .purchase-details__buttons .action_button.action_button--secondary:focus {
   border: 1px solid {{ settings.button_cart_bg_color }};
-  background-color: {{ settings.button_cart_bg_color }};
-  color: {{ settings.button_cart_text_color }};
+  background-color: #000;
+  color: #fff;
 }
 
 .purchase-details .purchase-details__spb--true {
@@ -18225,4 +18225,62 @@ Custom Styles for the product page
   height: 100% !important;
   border: none; 
   box-shadow: 0 0 3px 0 #999;
+}
+
+.product-quantity-box.purchase-details__quantity{
+  width: 100%;
+  margin-right: 0;
+}
+
+.purchase-details .purchase-details__spb--false{
+  margin-top: 0;
+}
+
+.purchase-details .purchase-details__spb--false .button--add-to-cart{
+  background-color: #000; 
+  width: 100%; 
+}
+
+.product__highlight{
+  margin-top: 30px;
+}
+
+.product__highlight__title{
+  font-size: 16px; 
+  margin-bottom: 15px; 
+}
+
+.product__highlight__content{
+  padding-left: 20px;
+}
+
+.product__highlight__content ul{
+  list-style: initial; 
+}
+
+.purchase-details .purchase-details__spb--true{
+  column-gap: 20px;
+  row-gap: 20px;
+}
+
+.purchase-details .purchase-details__spb--true .action_button.action_button--secondary{
+  flex: 1 1 100%; 
+  max-width: 100%; 
+  margin: 0;
+}
+
+.purchase-details .purchase-details__spb--true .shopify-payment-button{
+  flex:1 1 100%; 
+  max-width: 100%; 
+  margin: 0;
+}
+
+
+.cart-warning.hide{
+  display: none; 
+}
+
+.swym-button-bar{
+  width: 100%; 
+  text-align: center; 
 }
