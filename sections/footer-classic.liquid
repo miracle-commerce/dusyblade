@@ -125,6 +125,7 @@
       {% endfor %}
     </div>
   </section>
+  {% comment %}
   <section class="footer__extra-content section">
     <div class="container has-padding-top has-padding-bottom">
       {% if locale_selector or currency_selector or settings.show_multiple_currencies %}
@@ -149,7 +150,7 @@
         </div>
       {% endif %}
 
-      <div class="footer__credits {% if section.settings.display_payment_methods %}two-thirds {% else %} one-whole {% endif %} column small-down--one-whole">
+      <div class="footer__credits {% if section.settings.display_payment_methods %}one-half {% else %} one-whole {% endif %} column small-down--one-whole">
         <p>&copy; {{ "now" | date: "%Y" }} {{ shop.name | link_to: routes.root_url }}.</p>
         {{ section.settings.copyright_text }}
         {% if section.settings.display_designed_by %}
@@ -160,7 +161,7 @@
         {% endif %}
       </div>
       {% if section.settings.display_payment_methods %}
-        <div class="footer__payment-methods one-third column small-down--one-whole is-flex is-justify-end is-flex-wrap">
+        <div class="footer__payment-methods one-half column small-down--one-whole is-flex is-justify-end is-flex-wrap">
           <div class="payment-methods">
             {% for type in shop.enabled_payment_types %}
               {{ type | payment_type_svg_tag: class:'payment-icon' }}
@@ -170,6 +171,7 @@
       {% endif %}
     </div>
   </section>
+{% endcomment %}
 </footer>
 
 {% schema %}
