@@ -257,6 +257,90 @@
         "custom_css": ""
       }
     },
+    "51f541ca-7726-4480-9f29-6d735bf3880c": {
+      "type": "index__heading",
+      "settings": {
+        "preheading": "",
+        "title": "TheDustyBlade is a Star Seller!",
+        "subheading": "",
+        "preheading_color": "rgba(0,0,0,0)",
+        "heading_color": "rgba(0,0,0,0)",
+        "subheading_color": "rgba(0,0,0,0)",
+        "background": "rgba(0,0,0,0)",
+        "gradient": "rgba(0,0,0,0)",
+        "gradient_rotation": 0,
+        "heading_alignment": "center",
+        "vertical_spacing": "small",
+        "width": "standard",
+        "padding_top": 20,
+        "padding_bottom": 0,
+        "padding_left": 0,
+        "padding_right": 0,
+        "animation": "none",
+        "css_class": "",
+        "custom_css": ""
+      }
+    },
+    "c548a903-7954-4e88-9a6b-f7dcdc7715cd": {
+      "type": "index__icon-with-text-column",
+      "blocks": {
+        "template--18042144162082__c548a903-7954-4e88-9a6b-f7dcdc7715cd-16824495289c310f7d-0": {
+          "type": "logo_image",
+          "settings": {
+            "icon_label": "truck",
+            "title": "Smooth Shipping",
+            "text": "<p>Has a history of shipping on time with tracking.<\/p>",
+            "button_label": "",
+            "link": ""
+          }
+        },
+        "template--18042144162082__c548a903-7954-4e88-9a6b-f7dcdc7715cd-16824495289c310f7d-1": {
+          "type": "logo_image",
+          "settings": {
+            "icon_label": "bag",
+            "title": "Speedy replies",
+            "text": "<p>Has a history of replying to messages quickly.<\/p>",
+            "button_label": "",
+            "link": ""
+          }
+        },
+        "template--18042144162082__c548a903-7954-4e88-9a6b-f7dcdc7715cd-16824495289c310f7d-2": {
+          "type": "logo_image",
+          "settings": {
+            "icon_label": "tag",
+            "title": "Rave reviews",
+            "text": "<p>Average review rating is 4.8 or higher<\/p>",
+            "button_label": "",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "template--18042144162082__c548a903-7954-4e88-9a6b-f7dcdc7715cd-16824495289c310f7d-0",
+        "template--18042144162082__c548a903-7954-4e88-9a6b-f7dcdc7715cd-16824495289c310f7d-1",
+        "template--18042144162082__c548a903-7954-4e88-9a6b-f7dcdc7715cd-16824495289c310f7d-2"
+      ],
+      "settings": {
+        "icons_per_row": 4,
+        "icon_size": "medium",
+        "align_text": "center",
+        "button_style": "button--primary",
+        "icon_color": "#9560b8",
+        "text_color": "#222222",
+        "background": "#f7f7f7",
+        "gradient": "rgba(0,0,0,0)",
+        "gradient_rotation": 0,
+        "width": "standard",
+        "show_gutter": true,
+        "padding_top": 20,
+        "padding_bottom": 20,
+        "padding_left": 0,
+        "padding_right": 0,
+        "animation": "none",
+        "css_class": "",
+        "custom_css": ""
+      }
+    },
     "16812442808490fad9": {
       "type": "apps",
       "blocks": {
@@ -280,6 +364,76 @@
         "css_class": "",
         "custom_css": ""
       }
+    },
+    "6ec7ad55-3ec3-4a62-9a3a-31c863fa3415": {
+      "type": "index__heading",
+      "settings": {
+        "preheading": "",
+        "title": "Contact Shop Owner",
+        "subheading": "",
+        "preheading_color": "rgba(0,0,0,0)",
+        "heading_color": "rgba(0,0,0,0)",
+        "subheading_color": "rgba(0,0,0,0)",
+        "background": "rgba(0,0,0,0)",
+        "gradient": "rgba(0,0,0,0)",
+        "gradient_rotation": 0,
+        "heading_alignment": "center",
+        "vertical_spacing": "small",
+        "width": "standard",
+        "padding_top": 20,
+        "padding_bottom": 0,
+        "padding_left": 0,
+        "padding_right": 0,
+        "animation": "none",
+        "css_class": "",
+        "custom_css": ""
+      }
+    },
+    "c75d5ba2-dbe6-438e-86ab-befb4b84e3bc": {
+      "type": "index__contact-form",
+      "blocks": {
+        "template--18042144162082__c75d5ba2-dbe6-438e-86ab-befb4b84e3bc-1682449268d134d3ef-0": {
+          "type": "textfield",
+          "settings": {
+            "label": "Name",
+            "required": true
+          }
+        },
+        "template--18042144162082__c75d5ba2-dbe6-438e-86ab-befb4b84e3bc-1682449268d134d3ef-1": {
+          "type": "email",
+          "settings": {
+            "label": "Email"
+          }
+        },
+        "template--18042144162082__c75d5ba2-dbe6-438e-86ab-befb4b84e3bc-1682449268d134d3ef-2": {
+          "type": "textarea",
+          "settings": {
+            "label": "Message",
+            "required": false
+          }
+        }
+      },
+      "block_order": [
+        "template--18042144162082__c75d5ba2-dbe6-438e-86ab-befb4b84e3bc-1682449268d134d3ef-0",
+        "template--18042144162082__c75d5ba2-dbe6-438e-86ab-befb4b84e3bc-1682449268d134d3ef-1",
+        "template--18042144162082__c75d5ba2-dbe6-438e-86ab-befb4b84e3bc-1682449268d134d3ef-2"
+      ],
+      "settings": {
+        "content_image": "shopify:\/\/shop_images\/iusa_400x400.93050398_1tpo.jpg",
+        "title": "RON",
+        "content_text": "",
+        "social_enable": true,
+        "text_alignment": "center",
+        "background": "#E5E5E5",
+        "text_color": "#000000",
+        "form_position": "right",
+        "width": "standard",
+        "padding_top": 40,
+        "padding_bottom": 40,
+        "animation": "none",
+        "css_class": "",
+        "custom_css": ""
+      }
     }
   },
   "order": [
@@ -287,6 +441,10 @@
     "heading",
     "9c5fb76c-5684-4a5c-8377-312b6a348ca7",
     "image_with_text",
-    "16812442808490fad9"
+    "51f541ca-7726-4480-9f29-6d735bf3880c",
+    "c548a903-7954-4e88-9a6b-f7dcdc7715cd",
+    "16812442808490fad9",
+    "6ec7ad55-3ec3-4a62-9a3a-31c863fa3415",
+    "c75d5ba2-dbe6-438e-86ab-befb4b84e3bc"
   ]
 }
